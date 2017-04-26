@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editText5" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_welcome"
         android:layout_width="281dp"
         android:layout_height="115dp"
         android:fontFamily="serif-monospace"
@@ -85,10 +85,10 @@
         android:layout_marginBottom="250dp" />
 
     <TextView
-        android:id="@+id/SignIn"
+        android:id="@+id/text_SignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="@string/SignIn_Link"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
