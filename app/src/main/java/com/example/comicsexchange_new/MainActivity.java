@@ -36,12 +36,15 @@ public class MainActivity extends AppCompatActivity {
             {
                 switch (item.getItemId())
                 {
-                    case R.id.navigation_home:
+                    case R.id.navigation_news:
                         fragment = new ExplorerDefaultFragment(); // new Fragment();
                         break;
-                    case R.id.navigation_dashboard:
+                    case R.id.navigation_search:
                         break;
-                    case R.id.navigation_notifications:
+                    case R.id.navigation_exchange:
+                        fragment = new ExchangeFragment();
+                        break;
+                    case R.id.navigation_settings:
                         break;
                 }
 

@@ -8,18 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ExplorerDefaultFragment extends Fragment {
+public class ExchangeFragment extends Fragment {
 
-    public ExplorerDefaultFragment() {
+
+    public ExchangeFragment() {
         // Required empty public constructor
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle("News");
-        return inflater.inflate(R.layout.fragment_explorer_default, container, false);
+        getActivity().setTitle("I exchange");
+        return inflater.inflate(R.layout.fragment_exemple, container, false);
     }
 
 }
+
