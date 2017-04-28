@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 public class ExplorerDefaultFragment extends Fragment {
 
@@ -19,6 +20,7 @@ public class ExplorerDefaultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTitle("News");
         return inflater.inflate(R.layout.fragment_explorer_default, container, false);
     }
 }
