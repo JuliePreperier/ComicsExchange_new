@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
+
 import BDD.DbHelper;
 
 public class LogInActivity extends AppCompatActivity {
@@ -26,5 +28,16 @@ public class LogInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        final TextView signIn = (TextView) findViewById(R.id.text_SignIn);
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LogInActivity.this,SignInActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

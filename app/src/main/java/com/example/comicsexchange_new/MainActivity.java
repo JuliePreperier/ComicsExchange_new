@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ExplorerDefaultFragment(); // new Fragment();
                         break;
                     case R.id.navigation_search:
+                        fragment = new SearchFragment();
                         break;
                     case R.id.navigation_exchange:
                         fragment = new ExchangeFragment();
