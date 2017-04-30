@@ -39,6 +39,12 @@ public class ExplorerDefaultFragment extends Fragment {
         comics.add(new Comic(Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
         comics.add(new Comic(Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
         comics.add(new Comic(Color.RED, "Iron man","Incontournable de la license Marvel"));
+        comics.add(new Comic(Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
+        comics.add(new Comic(Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
+        comics.add(new Comic(Color.RED, "Iron man","Incontournable de la license Marvel"));
+        comics.add(new Comic(Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
+        comics.add(new Comic(Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
+        comics.add(new Comic(Color.RED, "Iron man","Incontournable de la license Marvel"));
 
         return comics;
     }
