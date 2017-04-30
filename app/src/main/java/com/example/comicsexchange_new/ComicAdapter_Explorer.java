@@ -15,15 +15,15 @@ import java.util.List;
  * Created by Julie on 30.04.2017.
  */
 
-public class ComicAdapter extends ArrayAdapter<Comic>{
+public class ComicAdapter_Explorer extends ArrayAdapter<Comic>{
 
-    public ComicAdapter(Context context, List<Comic> comics){
+    public ComicAdapter_Explorer(Context context, List<Comic> comics){
         super(context, 0, comics);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_explorer, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_explorer, parent, false); // changer le row_explorer si on veut changer le design
         }
 
         ComicViewHolder viewHolder = (ComicViewHolder) convertView.getTag();
