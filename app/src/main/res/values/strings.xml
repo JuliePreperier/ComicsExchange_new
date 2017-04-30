@@ -20,4 +20,10 @@
     <string name="exchange_title">I exchange</string>
     <string name="email_used_as_login">Email used as login</string>
     <string name="set_a_password">Set a password</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_username">Username</string>
+    <string name="settings_email">Email</string>
+    <string name="language_english">English</string>
+    <string name="language_french">Français</string>
+    <string name="language_german">Deutsch</string>
 </resources>

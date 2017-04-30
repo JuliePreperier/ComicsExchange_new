@@ -42,7 +42,7 @@ public class SettingsFragment extends Fragment {
         //Permet de dire qu'on veut avoir des boutons dans notre menu
         setHasOptionsMenu(true);
 
-        View view = inflater.inflate(R.layout.fragment_exchange, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
         getActivity().setTitle("Settings");
         return view;
     }
