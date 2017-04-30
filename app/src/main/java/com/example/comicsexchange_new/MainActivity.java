@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ExchangeFragment();
                         break;
                     case R.id.navigation_settings:
+                        fragment = new SettingsFragment();
                         break;
                 }
 
