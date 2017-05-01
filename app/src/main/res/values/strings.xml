@@ -6,7 +6,7 @@
     <string name="go_button">Go!</string>
     <string name="SignIn_button">Sign in</string>
     <string name="explorer_news">News</string>
-    <string name="explorer_favoris">Favoris</string>
+    <string name="explorer_favoris">Favorites</string>
     <string name="explorer_search">Search</string>
     <string name="title_activity_explorer_test">activity_explorer_test</string>
     <string name="title_home">Home</string>

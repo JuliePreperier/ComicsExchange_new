@@ -5,12 +5,15 @@ import android.graphics.Color;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -18,6 +21,8 @@ import java.util.List;
 
 public class ExchangeFragment extends Fragment {
 
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
 
 
     public ExchangeFragment() {
@@ -51,13 +56,32 @@ public class ExchangeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_exchange, container, false);
         getActivity().setTitle("I exchange");
 
-        ListView exchangeListView = (ListView) view.findViewById(R.id.listViewExchange);
+        final ListView exchangeListView = (ListView) view.findViewById(R.id.listViewExchange);
 
         List<Comic> comics = generateComics();
 
         ComicAdapter_Exchange adapter = new ComicAdapter_Exchange(this.getContext(), comics);
 
         exchangeListView.setAdapter(adapter);
+
+        // permet de passer de la news au details d'un comic
+        exchangeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int comicId = ((Comic) exchangeListView.getItemAtPosition(position)).getId();
+                Bundle bundle = new Bundle();
+                bundle.putInt("SelectedComicId", comicId);
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragment = new ExplorerDetailsFragment();
+                fragment.setArguments(bundle);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.addToBackStack(null);
+                transaction.replace(R.id.main_container, fragment).commit();
+
+            }
+        });
+
+
 
         return view;
     }
