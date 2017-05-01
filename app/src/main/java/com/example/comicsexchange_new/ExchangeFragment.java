@@ -64,9 +64,9 @@ public class ExchangeFragment extends Fragment {
 
     private List<Comic> generateComics(){
         List<Comic> comics = new ArrayList<Comic>();
-        comics.add(new Comic(Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
-        comics.add(new Comic(Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
-        comics.add(new Comic(Color.RED, "Iron man","Incontournable de la license Marvel"));
+        comics.add(new Comic(1, Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
+        comics.add(new Comic(2, Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
+        comics.add(new Comic(3, Color.RED, "Iron man","Incontournable de la license Marvel"));
 
         return comics;
     }

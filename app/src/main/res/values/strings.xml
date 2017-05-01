@@ -13,6 +13,16 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="SignIn_Link"><u>Sign In</u></string>
+    <string name="latest_upload">Latest upload</string>
+
+    <!-- String pour layout de details-->
+    <string name="Detail_comic">Details of art. </string>
+    <string name="Details_series">Serie: </string>
+    <string name="Detail_title">Title: </string>
+    <string name="Detail_number">Number: </string>
+    <string name="Detail_owner">Owner: </string>
+    <string name="Detail_synopsis">Synopsis:</string>
+    <string name="Detail_ownerDetail">Owner details:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

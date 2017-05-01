@@ -6,14 +6,16 @@ package com.example.comicsexchange_new;
 
 public class Comic {
 
+    private int id;
     private int color;
     private String titre;
     private String text;
 
-    public Comic(int color, String titre, String text){
+    public Comic(int id, int color, String titre, String text){
         this.color=color;
         this.titre=titre;
         this.text=text;
+        this.id=id;
     }
 
     public int getColor() {
@@ -38,6 +40,14 @@ public class Comic {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }
