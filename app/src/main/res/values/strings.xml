@@ -22,7 +22,8 @@
     <string name="Detail_number">Number: </string>
     <string name="Detail_owner">Owner: </string>
     <string name="Detail_synopsis">Synopsis:</string>
-    <string name="Detail_ownerDetail">Owner details:</string>
+    <string name="Detail_language">Language</string>
+    <string name="Detail_Author">Author: </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

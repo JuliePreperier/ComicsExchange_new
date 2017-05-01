@@ -1,6 +1,7 @@
 package com.example.comicsexchange_new;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        SQLiteDatabase db = myDBHelper.getReadableDatabase();
 
 
         final Button loginButton = (Button) findViewById(R.id.buttonConnect);
@@ -37,6 +39,12 @@ public class LogInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        myDBHelper.insertAuthors(this,"firstname","lastname");
+        myDBHelper.insertSeries(this,"Marvel","blabla",1);
+        myDBHelper.insertUser(this,"Julie","Préperier","Eliwe","1234","julie.preperier@netplus.ch","Français");
+        myDBHelper.insertComic(this,1,3,1,1,"Captain America","Français","capt. america","capt");
 
 
     }
