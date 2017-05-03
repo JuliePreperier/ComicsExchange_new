@@ -1,6 +1,8 @@
 package com.example.comicsexchange_new;
 
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,12 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
+import java.util.Locale;
 
 
-public class SettingsFragment extends Fragment {
 
+public class SettingsFragment extends Fragment{
+
+    Spinner spinner;
+    View view;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -30,14 +37,22 @@ public class SettingsFragment extends Fragment {
 
     //Handle button activities
     public boolean onOptionsItemSelected(MenuItem item){
-        //Handle item selection
+
         switch (item.getItemId()){
             case R.id.settings_button_save:
-                //do sth
+                Toast.makeText(getContext(), "The language has been changed", Toast.LENGTH_SHORT).show();
+                if(spinner.getSelectedItem().toString()=="Français"){
+                    changeToFR(view);
+                }
+                if(spinner.getSelectedItem().toString()=="English"){
+                    changeToEN(view);
+                }
+                if(spinner.getSelectedItem().toString()=="Deutsch"){
+                    changeToDE(view);
+                }
                 return true;
-            default :
-                return super.onOptionsItemSelected(item);
         }
+        return false;
     }
 
     @Override
@@ -46,10 +61,10 @@ public class SettingsFragment extends Fragment {
         //Permet de dire qu'on veut avoir des boutons dans notre menu
         setHasOptionsMenu(true);
 
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
         getActivity().setTitle("Settings");
 
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
         //Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.language_array,
                 android.R.layout.simple_spinner_item);
@@ -61,4 +76,55 @@ public class SettingsFragment extends Fragment {
 
         return view;
     }
+
+
+    //Méthode pour changer la langue en français
+    public void changeToFR(View v){
+        String languageToLoad="fr";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        //noinspection depreciation
+        config.locale=locale;
+
+        getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
+
+        Intent intent = new Intent(getActivity(),SettingsFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    //Méthode pour changer la langue en anglais
+    public void changeToEN(View v){
+        String languageToLoad="en";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+
+        config.locale=locale;
+
+        getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
+
+        Intent intent = new Intent(getActivity(),MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    //Méthode pour changer la langue en allemand
+    public void changeToDE(View v){
+        String languageToLoad="de";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        //noinspection depreciation
+        config.locale=locale;
+
+        getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
+
+        Intent intent = new Intent(getActivity(),SettingsFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+
 }

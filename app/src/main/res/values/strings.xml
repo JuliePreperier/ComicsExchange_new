@@ -37,4 +37,5 @@
     <string name="language_english">English</string>
     <string name="language_french">Français</string>
     <string name="language_german">Deutsch</string>
+    <string name="Detail_ownerDetail">Owner details:</string>
 </resources>

@@ -33,4 +33,6 @@
     <string name="title_home">Zuhause</string>
     <string name="title_notifications">Benachrichtigungen</string>
     <string name="welcome">WILLKOMMEN</string>
+    <string name="Detail_language">Sprache</string>
+    <string name="Detail_Author">Autor:</string>
 </resources>
