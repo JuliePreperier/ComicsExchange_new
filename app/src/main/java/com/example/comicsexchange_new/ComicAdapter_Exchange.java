@@ -17,8 +17,11 @@ import java.util.List;
 
 public class ComicAdapter_Exchange extends ArrayAdapter<Comic> {
 
+    Context context;
+
     public ComicAdapter_Exchange(Context context, List<Comic> comics){
         super(context, 0, comics);
+        this.context=context;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -40,10 +43,12 @@ public class ComicAdapter_Exchange extends ArrayAdapter<Comic> {
         // va récupérer l'item [position] dans la list<Comic> comics
         Comic comic = getItem(position);
 
+        int idImage = context.getResources().getIdentifier(comic.getPicture(),"drawable",context.getPackageName());
+
         // on va maintenant remplir la vue
         viewHolder.titre.setText(comic.getTitre());
         viewHolder.text.setText(comic.getText());
-        viewHolder.photos.setImageDrawable(new ColorDrawable(comic.getColor()));
+        viewHolder.photos.setImageResource(idImage);
 
         return convertView;
     }
