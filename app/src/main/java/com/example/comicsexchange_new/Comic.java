@@ -7,23 +7,33 @@ package com.example.comicsexchange_new;
 public class Comic {
 
     private int id;
-    private int color;
+    private String picture;
     private String titre;
     private String text;
 
-    public Comic(int id, int color, String titre, String text){
-        this.color=color;
+    public Comic(){
+
+    }
+
+    public Comic(int id, String picture, String titre, String text){
+        this.picture=picture;
         this.titre=titre;
         this.text=text;
         this.id=id;
     }
 
-    public int getColor() {
-        return color;
+    public Comic(String picture, String titre, String text){
+        this.picture=picture;
+        this.text=text;
+        this.titre=titre;
     }
 
-    public void setColor(int color) {
-        this.color = color;
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getTitre() {

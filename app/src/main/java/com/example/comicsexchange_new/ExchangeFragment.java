@@ -19,6 +19,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import BDD.ComicDB;
+import BDD.DbHelper;
+
 public class ExchangeFragment extends Fragment {
 
     private Fragment fragment;
@@ -88,9 +91,11 @@ public class ExchangeFragment extends Fragment {
 
     private List<Comic> generateComics(){
         List<Comic> comics = new ArrayList<Comic>();
-        comics.add(new Comic(1, Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
-        comics.add(new Comic(2, Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
-        comics.add(new Comic(3, Color.RED, "Iron man","Incontournable de la license Marvel"));
+
+        DbHelper db = new DbHelper(getContext());
+        ComicDB comicDB = new ComicDB(db);
+
+        comics = comicDB.getComics();
 
         return comics;
     }

@@ -20,6 +20,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import BDD.ComicDB;
+import BDD.DbHelper;
+
 public class SearchFragment extends Fragment {
 
     private ListView listView;
@@ -70,15 +73,11 @@ public class SearchFragment extends Fragment {
 
     private List<Comic> generateComics(){
         List<Comic> comics = new ArrayList<Comic>();
-        comics.add(new Comic(1, Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
-        comics.add(new Comic(2, Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
-        comics.add(new Comic(3, Color.RED, "Iron man","Incontournable de la license Marvel"));
-        comics.add(new Comic(4, Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
-        comics.add(new Comic(5, Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
-        comics.add(new Comic(6, Color.RED, "Iron man","Incontournable de la license Marvel"));
-        comics.add(new Comic(7, Color.BLACK, "Hunger Game","premier d'une grande trilogie"));
-        comics.add(new Comic(8, Color.BLUE,"Harry Potter", "Troisième volet de la sage"));
-        comics.add(new Comic(9, Color.RED, "Iron man","Incontournable de la license Marvel"));
+
+        DbHelper db = new DbHelper(getContext());
+        ComicDB comicDB = new ComicDB(db);
+
+        comics = comicDB.getComics();
 
         return comics;
     }

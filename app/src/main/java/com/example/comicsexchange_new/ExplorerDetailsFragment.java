@@ -37,7 +37,9 @@ public class ExplorerDetailsFragment extends Fragment {
 
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
 
-        String id="1";
+        //Bundle bundle = getArguments();
+        //String id=bundle.toString();
+        String id="3";
 
         /* -- RECUPERATION DES INFORMATIONS DANS LA BASE DE DONNEES -- */
 
@@ -101,7 +103,17 @@ public class ExplorerDetailsFragment extends Fragment {
         }
 
         // récupération du Owner du Comic
-        cursor = db.rawQuery("SELECT * FROM "+ Contract.Users.TABLE_NAME+", "+ Contract.Ownerbooks.TABLE_NAME+" WHERE "+ Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = '"+ Contract.Users._ID+"' AND "+ Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = 1",null);
+        //cursor = db.rawQuery("SELECT USERNAME FROM "+ Contract.Users.TABLE_NAME+", "+ Contract.Ownerbooks.TABLE_NAME+" WHERE "+ Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = '"+ Contract.Users._ID+"' AND "+ Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = "+id,null);
+
+        Cursor cursor2 = db.rawQuery("SELECT * FROM "+Contract.Ownerbooks.TABLE_NAME+" WHERE "+ Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = "+id,null);
+
+        String idOwner="";
+
+        if(cursor2.moveToFirst()){
+            idOwner=cursor2.getString(0);
+        }
+
+        cursor = db.rawQuery("SELECT * FROM "+ Contract.Users.TABLE_NAME+" WHERE "+ Contract.Users._ID+" = "+idOwner,null);
 
         if(cursor.moveToFirst()){
             String info=cursor.getString(3);

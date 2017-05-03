@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.comicsexchange_new.Comic;
+
+import java.util.ArrayList;
+
 import static BDD.Contract.SQL_CREATE_AUTHORS;
 import static BDD.Contract.SQL_CREATE_COMICS;
 import static BDD.Contract.SQL_CREATE_OWNERBOOKS;
@@ -146,6 +150,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.insert(Contract.Ownerbooks.TABLE_NAME,null,values);
     }
+
+
 
 
 }
