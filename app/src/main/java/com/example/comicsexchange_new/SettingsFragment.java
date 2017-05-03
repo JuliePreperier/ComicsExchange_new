@@ -40,7 +40,7 @@ public class SettingsFragment extends Fragment{
 
         switch (item.getItemId()){
             case R.id.settings_button_save:
-                Toast.makeText(getContext(), "The language has been changed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "The language was changed", Toast.LENGTH_SHORT).show();
                 if(spinner.getSelectedItem().toString()=="Français"){
                     changeToFR(view);
                 }
