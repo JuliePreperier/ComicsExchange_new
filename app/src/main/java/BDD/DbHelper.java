@@ -65,13 +65,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     // inserting a new Author in the database
-    public void insertAuthors(Context context, String firstname, String lastname){
+    public void insertAuthors(Context context, String lastname){
         DbHelper myDBHelper = new DbHelper(context);
 
         SQLiteDatabase db = myDBHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(Contract.Authors.COLUMN_NAME_FIRSTNAME,firstname);
         values.put(Contract.Authors.COLUMN_NAME_LASTNAME,lastname);
 
         db.insert(Contract.Authors.TABLE_NAME,null,values);

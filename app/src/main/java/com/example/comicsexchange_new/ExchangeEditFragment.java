@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,13 @@ public class ExchangeEditFragment extends Fragment {
     String idSerie;
     String idPhoto;
 
+    // definition des view
+    EditText serieView;
+    EditText titreView;
+    EditText numberView;
+    EditText synopsisView;
+    EditText languageView;
+    EditText authorView;
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -54,13 +62,15 @@ public class ExchangeEditFragment extends Fragment {
 
         switch (item.getItemId()){
             case R.id.edit_button_save:
+                updateUser();
                 Toast.makeText(getContext(), "Edit saved", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
                 bundle.putInt("SelectedComicId", Integer.valueOf(idComic));
+                fragmentManager = getActivity().getSupportFragmentManager();
                 fragment = new ExchangeDetailsFragment();
                 fragment.setArguments(bundle);
-                fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.addToBackStack(null);
                 transaction.replace(R.id.main_container, fragment).commit();
                 return true;
         }
@@ -95,22 +105,22 @@ public class ExchangeEditFragment extends Fragment {
 
             // récupération du title du Comic
             info = cursor.getString(3);
-            EditText titreView = (EditText) view.findViewById(R.id.Title_view);
+            titreView = (EditText) view.findViewById(R.id.Title_view);
             titreView.setText(info);
 
             // récupération du number du Comic
             info = cursor.getString(7);
-            EditText numberView = (EditText) view.findViewById(R.id.Number_view);
+            numberView = (EditText) view.findViewById(R.id.Number_view);
             numberView.setText(info);
 
             // récupération du synopsis du Comic
             info = cursor.getString(5);
-            EditText synopsisView = (EditText) view.findViewById(R.id.Synopsis_view);
+            synopsisView = (EditText) view.findViewById(R.id.Synopsis_view);
             synopsisView.setText(info);
 
             // récupération du language du Comic
             info = cursor.getString(4);
-            EditText languageView = (EditText) view.findViewById(R.id.language_view);
+            languageView = (EditText) view.findViewById(R.id.language_view);
             languageView.setText(info);
 
             // récupération de la photo du Comic
@@ -137,8 +147,7 @@ public class ExchangeEditFragment extends Fragment {
 
         if(cursor.moveToFirst()){
             String info=cursor.getString(1);
-            info = info +" "+ cursor.getString(2);
-            EditText authorView = (EditText) view.findViewById(R.id.Author_view);
+            authorView = (EditText) view.findViewById(R.id.Author_view);
             authorView.setText(info);
         }
 
@@ -166,11 +175,105 @@ public class ExchangeEditFragment extends Fragment {
 
         if(cursor.moveToFirst()){
             String info=cursor.getString(1);
-            EditText serieView = (EditText) view.findViewById(R.id.Serie_view);
+            serieView = (EditText) view.findViewById(R.id.Serie_view);
             serieView.setText(info);
         }
 
         return view;
+    }
+
+    public void updateUser(){
+
+        String strgSerie = serieView.getText().toString().trim();
+        String strgTitle = titreView.getText().toString().trim();
+        String strgNumber = numberView.getText().toString().trim();
+        String strgSynopsis = synopsisView.getText().toString().trim();
+        String strgLanguage = languageView.getText().toString().trim();
+
+        String strgAuthor = authorView.getText().toString().trim();
+
+        int editedAuthorId = authorAlreadyExist(Integer.valueOf(idAuthor),strgAuthor);
+        int editedSerieId = serieAlreadyExist(Integer.valueOf(idSerie),strgSerie);
+
+        SQLiteDatabase db = new DbHelper(getContext()).getWritableDatabase();
+
+        String strSQL = "UPDATE "+ Contract.Comic.TABLE_NAME+" SET '"
+                + Contract.Comic.COLUMN_NAME_TITRE+"' = '"+strgTitle+"', '"
+                + Contract.Comic.COLUMN_NAME_NUMBER+"' = '"+strgNumber+"', '"
+                + Contract.Comic.COLUMN_NAME_LANGUAGE+"' = '"+strgLanguage+"', '"
+                + Contract.Comic.COLUMN_NAME_SYNOPSIS+"' = '"+strgSynopsis+"', '"
+                + Contract.Comic.COLUMN_NAME_IDAUTHOR+"' = '"+editedAuthorId+"', '"
+                + Contract.Comic.COLUMN_NAME_IDSERIE+"' = '"+editedSerieId+"'" +
+                " WHERE "+ Contract.Comic._ID+" = "+idComic;
+        db.execSQL(strSQL);
+
+    }
+
+    public int authorAlreadyExist(int idAuthors, String strgAuthors){
+        int returnedId=0;
+        SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Authors.TABLE_NAME+" WHERE "
+                + Contract.Authors._ID+" = '"+idAuthors+"'",null);
+
+        if(c.moveToFirst()){
+            Log.d("id Author '",returnedId+"");
+            returnedId = c.getInt(0);
+            return returnedId;
+        }
+        else{
+            SQLiteDatabase databaseLite = new DbHelper(this.getContext()).getWritableDatabase();
+            DbHelper database = new DbHelper(this.getContext());
+            database.insertAuthors(this.getContext(),strgAuthors);
+
+            database.getReadableDatabase();
+
+            Cursor c2 = db.rawQuery("SELECT * FROM "+ Contract.Authors.TABLE_NAME+" WHERE "
+                    + Contract.Authors.COLUMN_NAME_LASTNAME+" = '"+strgAuthors+"'",null);
+
+            Log.d("Authors",strgAuthors);
+
+            if(c2.moveToFirst()){
+                returnedId = c2.getInt(0);
+
+                Log.d("id Author '",returnedId+"");
+                return returnedId;
+            }
+        }
+
+        return returnedId;
+
+    }
+
+    public int serieAlreadyExist(int idSerie, String strgSerie){
+        int returnedId=0;
+        SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Series.TABLE_NAME+" WHERE "
+                + Contract.Series._ID+" = '"+idSerie+"'",null);
+
+        if(c.moveToFirst()){
+            returnedId = c.getInt(0);
+            return returnedId;
+        }
+        else{
+            SQLiteDatabase databaseLite = new DbHelper(this.getContext()).getWritableDatabase();
+            DbHelper database = new DbHelper(this.getContext());
+            database.insertAuthors(this.getContext(),strgSerie);
+
+            database.getReadableDatabase();
+
+            Cursor c2 = db.rawQuery("SELECT * FROM "+ Contract.Series.TABLE_NAME+" WHERE "
+                    + Contract.Series.COLUMN_NAME_SERIENAME+" = '"+strgSerie+"'",null);
+
+            if(c2.moveToFirst()){
+                returnedId = c2.getInt(0);
+                return returnedId;
+            }
+        }
+
+        return returnedId;
+
     }
 
 }

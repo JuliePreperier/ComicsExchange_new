@@ -16,14 +16,12 @@ public final class Contract {
     // inner class dataTable Authors
     public static class Authors implements BaseColumns{
         public static final String TABLE_NAME = "Authors";
-        public static final String COLUMN_NAME_FIRSTNAME = "Firstname";
         public static final String COLUMN_NAME_LASTNAME = "Lastname";
     }
     // method create datatable Authors
     public static final String SQL_CREATE_AUTHORS =
             "CREATE TABLE " + Authors.TABLE_NAME + "( " +
                     Authors._ID + " INTEGER PRIMARY KEY, " +
-                    Authors.COLUMN_NAME_FIRSTNAME + " TEXT, " +
                     Authors.COLUMN_NAME_LASTNAME + " TEXT" +
                     " )";
 

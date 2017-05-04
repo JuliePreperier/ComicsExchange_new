@@ -130,7 +130,6 @@ public class ExplorerDetailsFragment extends Fragment {
 
         if(cursor.moveToFirst()){
             String info=cursor.getString(1);
-            info = info +" "+ cursor.getString(2);
             TextView authorView = (TextView) view.findViewById(R.id.Author_view);
             authorView.setText(info);
         }

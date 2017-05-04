@@ -50,4 +50,5 @@
     <string name="add_author">Author</string>
     <string name="add_synopsis">Synopsis</string>
     <string name="add_language">Language</string>
+    <string name="infosFiled">infoFiled</string>
 </resources>

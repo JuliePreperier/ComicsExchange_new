@@ -47,4 +47,5 @@
     <string name="add_synopsis">Synopsis</string>
     <string name="add_title">Titre</string>
     <string name="username">Nom d\'utilisateur</string>
+    <string name="infosFiled">Informations manquantes</string>
 </resources>

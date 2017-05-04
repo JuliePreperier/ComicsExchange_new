@@ -70,7 +70,7 @@ public class LogInActivity extends AppCompatActivity {
         Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Comic.TABLE_NAME,null);
 
         if(c.moveToFirst()==false){
-            myDBHelper.insertAuthors(this,"firstname","lastname");
+            myDBHelper.insertAuthors(this,"lastname");
             myDBHelper.insertSeries(this,"Marvel","blabla",1);
             myDBHelper.insertSeries(this,"Marsupilami","FilmOffice",1);
             myDBHelper.insertSeries(this,"Spirou","Dupuis",1);
