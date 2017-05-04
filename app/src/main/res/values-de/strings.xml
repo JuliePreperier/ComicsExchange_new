@@ -33,11 +33,18 @@
     <string name="title_home">Zuhause</string>
     <string name="title_notifications">Benachrichtigungen</string>
     <string name="welcome">WILLKOMMEN</string>
-    <string name="Detail_language">Sprache</string>
+    <string name="Detail_language">Sprache:</string>
     <string name="Detail_Author">Autor:</string>
     <string name="UserCreated">Neu Benutzer geschafft</string>
     <string name="wrongLogin">Falsche Benutzername/Passwort</string>
     <string name="UsernameUsed">Benutzername schon benutz</string>
     <string name="emailUsed">Emailadresse schon verknüpdt mit Benutzer</string>
     <string name="SettingsChanged">Einstellungen geändert</string>
+    <string name="add_author">Autor</string>
+    <string name="add_language">Sprache</string>
+    <string name="add_number">Nummer</string>
+    <string name="add_serie">Serie</string>
+    <string name="add_synopsis">Zusammenfassung</string>
+    <string name="add_title">Titel</string>
+    <string name="username">Benutzername</string>
 </resources>

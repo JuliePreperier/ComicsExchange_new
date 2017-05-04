@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">ComicExchange</string>
     <string name="Detail_comic">Détails de l\'article</string>
-    <string name="Detail_number">Nombre:</string>
+    <string name="Detail_number">Numéro:</string>
     <string name="Detail_owner">Propriétaire:</string>
     <string name="Detail_ownerDetail">Détails du propriétaire:</string>
     <string name="Detail_synopsis">Synopsis:</string>
@@ -33,11 +33,18 @@
     <string name="title_home">Maison</string>
     <string name="title_notifications">Notifications</string>
     <string name="welcome">BIENVENUE</string>
-    <string name="Detail_language">Langue</string>
+    <string name="Detail_language">Langue:</string>
     <string name="Detail_Author">Auteur:</string>
     <string name="UserCreated">Nouvel utilisateur créé</string>
     <string name="wrongLogin">Mauvais pseudo/mot de passe</string>
     <string name="UsernameUsed">Pseudo déjà utilisé</string>
     <string name="emailUsed">Addresse email déjà utilisée par un utilisateur</string>
     <string name="SettingsChanged">Paramètres changés</string>
+    <string name="add_language">Langue</string>
+    <string name="add_author">Auteur</string>
+    <string name="add_number">Numéro</string>
+    <string name="add_serie">Série</string>
+    <string name="add_synopsis">Synopsis</string>
+    <string name="add_title">Titre</string>
+    <string name="username">Nom d\'utilisateur</string>
 </resources>

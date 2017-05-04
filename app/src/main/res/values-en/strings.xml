@@ -3,7 +3,7 @@
     <string name="app_name">ComicExchange</string>
     <string name="Detail_Author">"Author: "</string>
     <string name="Detail_comic">Details of art.</string>
-    <string name="Detail_language">Language</string>
+    <string name="Detail_language">Language:</string>
     <string name="Detail_number">Number:</string>
     <string name="Detail_owner">Owner:</string>
     <string name="Detail_ownerDetail">Owner details:</string>
@@ -40,4 +40,11 @@
     <string name="UsernameUsed">Username already used</string>
     <string name="emailUsed">User already set to this email adress</string>
     <string name="SettingsChanged">Settings changed</string>
+    <string name="add_author">Author</string>
+    <string name="add_language">Language</string>
+    <string name="add_number">Number</string>
+    <string name="add_serie">Serie</string>
+    <string name="add_synopsis">Synopsis</string>
+    <string name="add_title">Title</string>
+    <string name="username">Username</string>
 </resources>

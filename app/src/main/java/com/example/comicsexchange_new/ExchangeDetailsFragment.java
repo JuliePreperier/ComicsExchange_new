@@ -53,7 +53,11 @@ public class ExchangeDetailsFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.details_button_edit:
                 Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putInt("SelectedComicId", Integer.valueOf(idComic));
                 fragment = new ExchangeEditFragment();
+                fragment.setArguments(bundle);
+                fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
                 return true;

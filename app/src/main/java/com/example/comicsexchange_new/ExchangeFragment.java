@@ -44,10 +44,13 @@ public class ExchangeFragment extends Fragment {
         //Handle item selection
         switch (item.getItemId()){
             case R.id.exchangedefault_button_add:
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragment = new ExchangeAddFragment();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container, fragment).commit();
                 return true;
-            default :
-                return super.onOptionsItemSelected(item);
         }
+        return false;
     }
 
     @Override

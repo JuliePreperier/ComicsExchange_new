@@ -22,7 +22,7 @@
     <string name="Detail_number">Number: </string>
     <string name="Detail_owner">Owner: </string>
     <string name="Detail_synopsis">Synopsis:</string>
-    <string name="Detail_language">Language</string>
+    <string name="Detail_language">Language:</string>
     <string name="Detail_Author">Author: </string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -44,4 +44,10 @@
     <string name="UsernameUsed">alreadyUsed</string>
     <string name="emailUsed">alreadyUsedEmail</string>
     <string name="SettingsChanged">SettingsChanged</string>
+    <string name="add_serie">Serie</string>
+    <string name="add_title">Title</string>
+    <string name="add_number">Number</string>
+    <string name="add_author">Author</string>
+    <string name="add_synopsis">Synopsis</string>
+    <string name="add_language">Language</string>
 </resources>
