@@ -85,24 +85,18 @@ public final class Contract {
     // inner class dataTable Users
     public static class Users implements BaseColumns{
         public static final String TABLE_NAME = "Users";
-        public static final String COLUMN_NAME_FIRSTNAME = "Firstname";
-        public static final String COLUMN_NAME_LASTNAME = "Lastname";
         public static final String COLUMN_NAME_USERNAME = "Username";
         public static final String COLUMN_NAME_PASSWORD = "Password";
         public static final String COLUMN_NAME_EMAIL = "Email";
-        public static final String COLUMN_NAME_LANGUAGE = "Language";
     }
 
     // Method create dataTable Users
     public static final String SQL_CREATE_USERS =
             " CREATE TABLE " + Users.TABLE_NAME + " ( " +
                     Users._ID + " INTEGER PRIMARY KEY, " +
-                    Users.COLUMN_NAME_FIRSTNAME + " TEXT, " +
-                    Users.COLUMN_NAME_LASTNAME + " TEXT, " +
                     Users.COLUMN_NAME_USERNAME + " TEXT, " +
                     Users.COLUMN_NAME_PASSWORD + " TEXT, " +
-                    Users.COLUMN_NAME_EMAIL + " TEXT, " +
-                    Users.COLUMN_NAME_LANGUAGE + " TEXT" +
+                    Users.COLUMN_NAME_EMAIL + " TEXT "+
                     " )";
 
     // Method delete dataTable Users

@@ -28,6 +28,8 @@ public class SearchFragment extends Fragment {
     private ListView listView;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    EditText inputSearch;
+    ComicSearch_Adapter adapter;
 
 
     public SearchFragment() {
@@ -44,12 +46,31 @@ public class SearchFragment extends Fragment {
         // pour le titre de l'actionbar
         getActivity().setTitle("Search");
 
+        inputSearch = (EditText) view.findViewById(R.id.inputSearch);
+
         // pour la listView
         listView = (ListView) view.findViewById(R.id.listViewExplorer);
-        List<Comic> comics = generateComics();
+        ArrayList<Comic> comics = generateComics();
         //Adapter pour la listView
-        ComicAdapter_Explorer adapter = new ComicAdapter_Explorer(this.getContext(),comics);
+        adapter = new ComicSearch_Adapter(getActivity(),comics);
         listView.setAdapter(adapter);
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // not used
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // not used
+            }
+        });
 
         // permet de passer de la news au details d'un comic
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,8 +92,8 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    private List<Comic> generateComics(){
-        List<Comic> comics = new ArrayList<Comic>();
+    private ArrayList<Comic> generateComics(){
+        ArrayList<Comic> comics = new ArrayList<Comic>();
 
         DbHelper db = new DbHelper(getContext());
         ComicDB comicDB = new ComicDB(db);

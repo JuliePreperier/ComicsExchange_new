@@ -34,6 +34,8 @@ public class DbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+
+    // Create all tables
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_AUTHORS);
@@ -43,6 +45,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_USERS);
     }
 
+
+    // Upgrade
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
@@ -59,6 +63,8 @@ public class DbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+
+    // inserting a new Author in the database
     public void insertAuthors(Context context, String firstname, String lastname){
         DbHelper myDBHelper = new DbHelper(context);
 
@@ -71,7 +77,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(Contract.Authors.TABLE_NAME,null,values);
     }
 
-
+    // inserting a new Serie in the database
     public void insertSeries(Context context, String name, String editionHouse, int idAuthor){
         DbHelper myDBHelper = new DbHelper(context);
 
@@ -85,6 +91,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(Contract.Series.TABLE_NAME,null,values);
     }
 
+    // inserting a new Comic in the database
     public void insertComic(Context context,int idUser, int number, int idAuthor, int idSerie, String titre, String language, String synopsis, String photo){
         DbHelper myDBHelper = new DbHelper(context);
 
@@ -100,19 +107,21 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(Contract.Comic.COLUMN_NAME_PHOTO, photo);
 
         db.insert(Contract.Comic.TABLE_NAME,null,values);
-        int id =1;
+        int lastComicInsertedid =1;
 
         SQLiteDatabase dbReadable = new DbHelper(context).getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+ Contract.Comic.TABLE_NAME+" ORDER BY "+ Contract.Comic._ID+" DESC LIMIT 1",null);
 
         if(cursor.moveToFirst()){
-            id = Integer.valueOf(cursor.getString(0));
+            lastComicInsertedid = Integer.valueOf(cursor.getString(0));
         }
 
-        insertOwnerBooks(context,idUser,id);
+        insertOwnerBooks(context,idUser,lastComicInsertedid);
 
     }
 
+
+    // deleting a comic from the database with id
     public void deleteComic(Context context,int id){
         DbHelper myDBHelper = new DbHelper(context);
 
@@ -122,23 +131,24 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertUser(Context context, String firstname, String lastname, String username, String password, String email, String language){
+
+    // Inserting a new User in the database
+    public void insertUser(Context context, String username, String password, String email){
         DbHelper myBDHelper = new DbHelper(context);
 
         SQLiteDatabase db = myBDHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(Contract.Users.COLUMN_NAME_FIRSTNAME,firstname);
-        values.put(Contract.Users.COLUMN_NAME_LASTNAME,lastname);
         values.put(Contract.Users.COLUMN_NAME_USERNAME,username);
         values.put(Contract.Users.COLUMN_NAME_PASSWORD,password);
         values.put(Contract.Users.COLUMN_NAME_EMAIL,email);
-        values.put(Contract.Users.COLUMN_NAME_LANGUAGE,language);
 
         db.insert(Contract.Users.TABLE_NAME,null,values);
 
     }
 
+
+    // inserting data in the join table between User and Comic
     public void insertOwnerBooks(Context context, int idUser, int idBook){
         DbHelper myBDHelper = new DbHelper(context);
 

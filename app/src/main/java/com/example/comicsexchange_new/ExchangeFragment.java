@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,6 @@ public class ExchangeFragment extends Fragment {
         //Handle item selection
         switch (item.getItemId()){
             case R.id.exchangedefault_button_add:
-                //do sth
                 return true;
             default :
                 return super.onOptionsItemSelected(item);
@@ -56,18 +56,27 @@ public class ExchangeFragment extends Fragment {
         //Permet de dire qu'on veut avoir des boutons dans notre menu
         setHasOptionsMenu(true);
 
+
+        // get the id of the connected user
+        int currentUserId = getActivity().getIntent().getExtras().getInt("currentUserId");
+
+        // inflate the view with the layout fragment_exchange
         View view = inflater.inflate(R.layout.fragment_exchange, container, false);
+
+        // set the title in the actionBar
         getActivity().setTitle("I exchange");
 
+        // set the listview for the exchange part
         final ListView exchangeListView = (ListView) view.findViewById(R.id.listViewExchange);
 
-        List<Comic> comics = generateComics();
+        // filling the list with comics
+        List<Comic> comics = generateComics(currentUserId);
 
+        // set the adapter to the list
         ComicAdapter_Exchange adapter = new ComicAdapter_Exchange(this.getContext(), comics);
-
         exchangeListView.setAdapter(adapter);
 
-        // permet de passer de la news au details d'un comic
+        // let navigate from fragment "News" to "details"
         exchangeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,7 +84,7 @@ public class ExchangeFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("SelectedComicId", comicId);
                 fragmentManager = getActivity().getSupportFragmentManager();
-                fragment = new ExplorerDetailsFragment();
+                fragment = new ExplorerDetailsFragment(); // aller sur ExchangeDetailFragment();
                 fragment.setArguments(bundle);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.addToBackStack(null);
@@ -89,13 +98,18 @@ public class ExchangeFragment extends Fragment {
         return view;
     }
 
-    private List<Comic> generateComics(){
+    // generate a list of comic from the database
+    private List<Comic> generateComics(int currentUserId){
         List<Comic> comics = new ArrayList<Comic>();
 
         DbHelper db = new DbHelper(getContext());
         ComicDB comicDB = new ComicDB(db);
 
-        comics = comicDB.getComics();
+        comics = comicDB.getComicsPerUser(currentUserId);
+
+        if(comics.size() == 0){
+            Toast.makeText(getContext(),"0 comics",Toast.LENGTH_SHORT).show();
+        }
 
         return comics;
     }

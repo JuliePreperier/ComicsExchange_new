@@ -31,19 +31,21 @@ public class ExplorerDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_explorer_details, container, false);
 
         getActivity().setTitle("Details");
 
+
+
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
 
-        //Bundle bundle = getArguments();
-        //String id=bundle.toString();
-        String id="3";
+        int transferredId = getArguments().getInt("SelectedComicId");
+
 
         /* -- RECUPERATION DES INFORMATIONS DANS LA BASE DE DONNEES -- */
 
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ Contract.Comic.TABLE_NAME+" WHERE "+ Contract.Comic._ID+" = "+id,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ Contract.Comic.TABLE_NAME+" WHERE "+ Contract.Comic._ID+" = '"+transferredId+"'",null);
         Resources res = getResources();
 
 
@@ -103,20 +105,19 @@ public class ExplorerDetailsFragment extends Fragment {
         }
 
         // récupération du Owner du Comic
-        //cursor = db.rawQuery("SELECT USERNAME FROM "+ Contract.Users.TABLE_NAME+", "+ Contract.Ownerbooks.TABLE_NAME+" WHERE "+ Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = '"+ Contract.Users._ID+"' AND "+ Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = "+id,null);
 
-        Cursor cursor2 = db.rawQuery("SELECT * FROM "+Contract.Ownerbooks.TABLE_NAME+" WHERE "+ Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = "+id,null);
+        Cursor cursor2 = db.rawQuery("SELECT * FROM "+Contract.Ownerbooks.TABLE_NAME+" WHERE "+ Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = '"+transferredId+"'",null);
 
         String idOwner="";
 
         if(cursor2.moveToFirst()){
-            idOwner=cursor2.getString(0);
+            idOwner=cursor2.getString(1);
         }
 
         cursor = db.rawQuery("SELECT * FROM "+ Contract.Users.TABLE_NAME+" WHERE "+ Contract.Users._ID+" = "+idOwner,null);
 
         if(cursor.moveToFirst()){
-            String info=cursor.getString(3);
+            String info=cursor.getString(1);
             TextView ownerView = (TextView) view.findViewById(R.id.Owner_view);
             ownerView.setText(info);
         }

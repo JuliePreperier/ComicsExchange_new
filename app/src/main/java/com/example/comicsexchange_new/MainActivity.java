@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int currentUserId = getIntent().getExtras().getInt("currentUserId");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

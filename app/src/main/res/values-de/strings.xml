@@ -11,7 +11,7 @@
     <string name="SignIn_Link"><u>Sign In</u></string>
     <string name="SignIn_button">Anmelden</string>
     <string name="email">Email</string>
-    <string name="email_used_as_login">E-Mail als Login verwendet</string>
+    <string name="email_used_as_login">E-Mail</string>
     <string name="exchange_title">Ich tausche</string>
     <string name="explorer_favoris">Favoriten</string>
     <string name="explorer_news">Neuheiten</string>
@@ -35,4 +35,8 @@
     <string name="welcome">WILLKOMMEN</string>
     <string name="Detail_language">Sprache</string>
     <string name="Detail_Author">Autor:</string>
+    <string name="UserCreated">Neu Benutzer geschafft</string>
+    <string name="wrongLogin">Falsche Benutzername/Passwort</string>
+    <string name="UsernameUsed">Benutzername schon benutz</string>
+    <string name="emailUsed">Emailadresse schon verknüpdt mit Benutzer</string>
 </resources>

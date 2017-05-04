@@ -6,15 +6,17 @@ package com.example.comicsexchange_new;
 
 public class Comic {
 
-    private int id;
-    private String picture;
-    private String titre;
-    private String text;
+    public int id;
+    public String picture;
+    public String titre;
+    public String text;
 
     public Comic(){
-
+        // empty constructor
     }
 
+
+    // constructor with all information
     public Comic(int id, String picture, String titre, String text){
         this.picture=picture;
         this.titre=titre;
@@ -22,11 +24,17 @@ public class Comic {
         this.id=id;
     }
 
+
+    // constructor for listview (without ids)
     public Comic(String picture, String titre, String text){
         this.picture=picture;
         this.text=text;
         this.titre=titre;
     }
+
+
+    // GETTERS AND SETTERS
+
 
     public String getPicture() {
         return picture;
@@ -58,6 +66,19 @@ public class Comic {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Comic)){
+            return false;
+        }
+        Comic c = (Comic) obj;
+        if(this.id == c.getId()){
+            return true;
+        }
+        return false;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.comicsexchange_new;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ public class ExplorerDefaultFragment extends Fragment {
         listView.setAdapter(adapter);
 
 
+
         // permet de passer de la news au details d'un comic
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -70,7 +73,7 @@ public class ExplorerDefaultFragment extends Fragment {
         DbHelper db = new DbHelper(getContext());
         ComicDB comicDB = new ComicDB(db);
 
-        comics = comicDB.getComics();
+        comics = comicDB.getLastComic();
 
         return comics;
     }

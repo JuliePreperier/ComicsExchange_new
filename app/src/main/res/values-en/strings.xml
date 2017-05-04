@@ -35,4 +35,8 @@
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
     <string name="welcome">WELCOME</string>
+    <string name="UserCreated">New User created</string>
+    <string name="wrongLogin">Wrong username/password</string>
+    <string name="UsernameUsed">Username already used</string>
+    <string name="emailUsed">User already set to this email adress</string>
 </resources>

@@ -11,6 +11,7 @@
         android:icon="@drawable/ic_search"
         android:title="" />
 
+
     <item
         android:id="@+id/navigation_exchange"
         android:icon="@drawable/ic_exchange"

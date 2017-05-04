@@ -21,10 +21,12 @@ public class ComicDB {
         this.db=db;
     }
 
-    public List<Comic> getComics(){
-        List<Comic> comics = new ArrayList<Comic>();
 
-        String selectQuery = "SELECT * FROM " +Contract.Comic.TABLE_NAME;
+    // method to get all the comics of the database
+    public ArrayList<Comic> getComics(){
+        ArrayList<Comic> comics = new ArrayList<Comic>();
+
+        String selectQuery = "SELECT * FROM " +Contract.Comic.TABLE_NAME; // SQL request
 
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
         Cursor c = sqLiteDatabase.rawQuery(selectQuery,null);
@@ -47,8 +49,10 @@ public class ComicDB {
         return comics;
     }
 
-    public Comic getCanton(int idComic){
-        String selectQuery = "SELECT * FROM "+Contract.Comic.TABLE_NAME +" WHERE "+Contract.Comic._ID+" = "+idComic;
+
+    // method to get only one comic with its id
+    public Comic getComic(int idComic){
+        String selectQuery = "SELECT * FROM "+Contract.Comic.TABLE_NAME +" WHERE "+Contract.Comic._ID+" = "+idComic;// SQL request
 
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
         Cursor c = sqLiteDatabase.rawQuery(selectQuery,null);
@@ -64,4 +68,64 @@ public class ComicDB {
 
         return comic;
     }
+
+
+    // method to get all the comic of a user (with his id)
+    public List<Comic> getComicsPerUser(int currentUserId){
+        List<Comic> comics = new ArrayList<Comic>();
+
+        String selectQuery = "SELECT * FROM " +Contract.Comic.TABLE_NAME+", "+Contract.Ownerbooks.TABLE_NAME+" WHERE Comic."+Contract.Comic._ID+" = "+Contract.Ownerbooks.COLUMN_NAME_IDBOOK
+                +" AND "+ Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = '"+currentUserId+"'";// SQL request
+
+        SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
+        Cursor c = sqLiteDatabase.rawQuery(selectQuery,null);
+
+        //looping through all rows and adding to list
+
+        if(c.moveToFirst()){
+            do{
+                int id = c.getInt(c.getColumnIndex(Contract.Comic._ID));
+                String titre = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_TITRE));
+                String text = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_SYNOPSIS));
+                String picture = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_PHOTO));
+                Comic comic =  new Comic(id,picture,titre,text);
+
+                // adding to comic list
+                comics.add(comic);
+            }while(c.moveToNext());
+        }
+
+        return comics;
+    }
+
+
+    // Method to get the 5 lasts comics of the table Comic (latest upload) for New's fragment
+    public List<Comic> getLastComic(){
+        List<Comic> comics = new ArrayList<Comic>();
+
+        String selectQuery = "SELECT * FROM " +Contract.Comic.TABLE_NAME;// SQL request
+
+        SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
+        Cursor c = sqLiteDatabase.rawQuery(selectQuery,null);
+
+        //looping through the 5 rows from the bottom of the table and adding the object to list
+
+        if(c.moveToLast()){
+            for(int i=0;i<5;i++){
+                int id = c.getInt(c.getColumnIndex(Contract.Comic._ID));
+                String titre = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_TITRE));
+                String text = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_SYNOPSIS));
+                String picture = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_PHOTO));
+                Comic comic =  new Comic(id,picture,titre,text);
+
+                // adding to comic list
+                comics.add(comic);
+                c.moveToPrevious();
+            };
+        }
+
+        return comics;
+    }
+
+
 }

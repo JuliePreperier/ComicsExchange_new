@@ -29,7 +29,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="exchange_title">I exchange</string>
-    <string name="email_used_as_login">Email used as login</string>
+    <string name="email_used_as_login">Email</string>
     <string name="set_a_password">Set a password</string>
     <string name="settings_language">Language</string>
     <string name="settings_username">Username</string>
@@ -37,5 +37,10 @@
     <string name="language_english">English</string>
     <string name="language_french">Français</string>
     <string name="language_german">Deutsch</string>
+    <string name="username">Username</string>
     <string name="Detail_ownerDetail">Owner details:</string>
+    <string name="UserCreated">New user created</string>
+    <string name="wrongLogin">wrong</string>
+    <string name="UsernameUsed">alreadyUsed</string>
+    <string name="emailUsed">alreadyUsedEmail</string>
 </resources>
