@@ -6,13 +6,12 @@
     <string-array name="language_array">
         <item
             android:id="@+id/français"
-            android:title="@string/language_french">@string/language_french</item>
+            android:title="Français">@string/language_french</item>
         <item
             android:id="@+id/english"
             android:title="@string/language_english">@string/language_english</item>
         <item
             android:id="@+id/german"
-            android:title="@string/language_german"
-            >@string/language_german</item>
+            android:title="Deutsch">@string/language_german</item>
     </string-array>
 </resources>

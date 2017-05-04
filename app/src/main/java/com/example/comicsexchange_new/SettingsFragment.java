@@ -40,14 +40,14 @@ public class SettingsFragment extends Fragment{
 
         switch (item.getItemId()){
             case R.id.settings_button_save:
-                Toast.makeText(getContext(), "The language was changed", Toast.LENGTH_SHORT).show();
-                if(spinner.getSelectedItem().toString()=="Français"){
+                Toast.makeText(getContext(), "Settings saved", Toast.LENGTH_SHORT).show();
+                if(spinner.getSelectedItem().toString().equals("Français")){
                     changeToFR(view);
                 }
-                if(spinner.getSelectedItem().toString()=="English"){
+                if(spinner.getSelectedItem().toString().equals("English")){
                     changeToEN(view);
                 }
-                if(spinner.getSelectedItem().toString()=="Deutsch"){
+                if(spinner.getSelectedItem().toString().equals("Deutsch")){
                     changeToDE(view);
                 }
                 return true;
@@ -84,12 +84,12 @@ public class SettingsFragment extends Fragment{
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
-        //noinspection depreciation
+
         config.locale=locale;
 
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
-        Intent intent = new Intent(getActivity(),SettingsFragment.class);
+        Intent intent = new Intent(getActivity(),MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -116,12 +116,12 @@ public class SettingsFragment extends Fragment{
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
-        //noinspection depreciation
+
         config.locale=locale;
 
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
-        Intent intent = new Intent(getActivity(),SettingsFragment.class);
+        Intent intent = new Intent(getActivity(),MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
