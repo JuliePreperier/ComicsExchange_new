@@ -3,8 +3,12 @@ package com.example.comicsexchange_new;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,19 +16,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.Locale;
 
+import BDD.Contract;
+import BDD.DbHelper;
 
 
 public class SettingsFragment extends Fragment{
 
     Spinner spinner;
     View view;
-    int currentId;
+    int currentUserId;
+    EditText username;
+    EditText password;
+    EditText email;
+
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -41,6 +50,7 @@ public class SettingsFragment extends Fragment{
 
         switch (item.getItemId()){
             case R.id.settings_button_save:
+                updateUser();
                 Toast.makeText(getContext(), "Settings saved", Toast.LENGTH_SHORT).show();
                 if(spinner.getSelectedItem().toString().equals("Français")){
                     changeToFR(view);
@@ -62,6 +72,15 @@ public class SettingsFragment extends Fragment{
         //Permet de dire qu'on veut avoir des boutons dans notre menu
         setHasOptionsMenu(true);
 
+        if(currentIdNull(currentUserId)){
+            if(getActivity().getIntent().getExtras().getInt("currentUserId")!=0){
+                currentUserId = getActivity().getIntent().getExtras().getInt("currentUserId");
+            }
+            else{
+                currentUserId = getActivity().getIntent().getExtras().getInt("currentUserIdFromSettings");
+            }
+        }
+
         view = inflater.inflate(R.layout.fragment_settings, container, false);
         getActivity().setTitle("Settings");
 
@@ -75,7 +94,49 @@ public class SettingsFragment extends Fragment{
         spinner.setAdapter(adapter);
 
 
+        SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
+
+                /* -- RECUPERATION DES INFORMATIONS DANS LA BASE DE DONNEES -- */
+
+        Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Users.TABLE_NAME+" WHERE "+ Contract.Users._ID+" = '"+currentUserId+"'",null);
+
+        if(c.moveToFirst()){
+            // récupération du username du current user
+            String info = c.getString(1);
+            username = (EditText) view.findViewById(R.id.settings_username_edit);
+            username.setText(info);
+
+            // récupération du password du current user
+            info = c.getString(2);
+            password = (EditText) view.findViewById(R.id.settings_password_edit);
+            password.setText(info);
+
+
+            // récupération de l'email du current user
+            info = c.getString(3);
+            email = (EditText) view.findViewById(R.id.settings_email_edit);
+            email.setText(info);
+
+        }
+
         return view;
+    }
+
+    public void updateUser(){
+
+        String strgUsername = username.getText().toString().trim();
+        String strgPassword = password.getText().toString().trim();
+        String strgEmail = email.getText().toString().trim();
+
+        SQLiteDatabase db = new DbHelper(getContext()).getWritableDatabase();
+
+        String strSQL = "UPDATE "+ Contract.Users.TABLE_NAME+" SET '"
+                + Contract.Users.COLUMN_NAME_EMAIL+"' = '"+strgEmail+"', '"
+                + Contract.Users.COLUMN_NAME_USERNAME+"' = '"+strgUsername+"', '"
+                + Contract.Users.COLUMN_NAME_PASSWORD+"' = '"+strgPassword+"'" +
+                "WHERE "+ Contract.Users._ID+" = '"+currentUserId+"'";
+        db.execSQL(strSQL);
+
     }
 
 
@@ -90,10 +151,9 @@ public class SettingsFragment extends Fragment{
 
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
-        currentId = getActivity().getIntent().getExtras().getInt("currentUserId");
 
         Intent intent = new Intent(getActivity(),MainActivity.class);
-        intent.putExtra("currentUserIdFromSettings",currentId);
+        intent.putExtra("currentUserIdFromSettings",currentUserId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -109,10 +169,8 @@ public class SettingsFragment extends Fragment{
 
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
-        currentId = getActivity().getIntent().getExtras().getInt("currentUserId");
-
         Intent intent = new Intent(getActivity(),MainActivity.class);
-        intent.putExtra("currentUserIdFromSettings",currentId);
+        intent.putExtra("currentUserIdFromSettings",currentUserId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -128,12 +186,21 @@ public class SettingsFragment extends Fragment{
 
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
-        currentId = getActivity().getIntent().getExtras().getInt("currentUserId");
 
         Intent intent = new Intent(getActivity(),MainActivity.class);
-        intent.putExtra("currentUserIdFromSettings",currentId);
+        intent.putExtra("currentUserIdFromSettings",currentUserId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+
+    // check si le Extras currentUserId
+    public boolean currentIdNull(int currentUserId){
+
+        if(currentUserId==0){
+            return true;
+        }
+        return false;
     }
 
 

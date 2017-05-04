@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import BDD.Contract;
 import BDD.DbHelper;
+import BDD.UserDB;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -85,6 +86,17 @@ public class LogInActivity extends AppCompatActivity {
             myDBHelper.insertComic(this,2,7,1,2,"Marsupilami","Français","Les aventures du Marsupilami","marsu");
         }
 
+    }
+
+    private User generateUser(int currentUserId){
+        User user = new User();
+
+        DbHelper db = new DbHelper(getApplicationContext());
+        UserDB userDB = new UserDB(db);
+
+        user = userDB.getUser(currentUserId);
+
+        return user;
     }
 
     public void checkData(){

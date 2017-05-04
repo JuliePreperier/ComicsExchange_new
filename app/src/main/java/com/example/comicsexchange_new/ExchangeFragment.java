@@ -58,7 +58,15 @@ public class ExchangeFragment extends Fragment {
 
 
         // get the id of the connected user
-        int currentUserId = getActivity().getIntent().getExtras().getInt("currentUserId");
+        int currentUserId=0;
+        if(currentIdNull(currentUserId)){
+            if(getActivity().getIntent().getExtras().getInt("currentUserId")!=0){
+                currentUserId = getActivity().getIntent().getExtras().getInt("currentUserId");
+            }
+            else{
+                currentUserId = getActivity().getIntent().getExtras().getInt("currentUserIdFromSettings");
+            }
+        }
 
         // inflate the view with the layout fragment_exchange
         View view = inflater.inflate(R.layout.fragment_exchange, container, false);
@@ -111,6 +119,14 @@ public class ExchangeFragment extends Fragment {
         }
 
         return comics;
+    }
+
+    public boolean currentIdNull(int currentUserId){
+
+        if(currentUserId==0){
+            return true;
+        }
+        return false;
     }
 }
 
