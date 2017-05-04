@@ -43,4 +43,5 @@
     <string name="wrongLogin">wrong</string>
     <string name="UsernameUsed">alreadyUsed</string>
     <string name="emailUsed">alreadyUsedEmail</string>
+    <string name="SettingsChanged">SettingsChanged</string>
 </resources>

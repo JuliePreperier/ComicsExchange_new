@@ -39,4 +39,5 @@
     <string name="wrongLogin">Mauvais pseudo/mot de passe</string>
     <string name="UsernameUsed">Pseudo déjà utilisé</string>
     <string name="emailUsed">Addresse email déjà utilisée par un utilisateur</string>
+    <string name="SettingsChanged">Paramètres changés</string>
 </resources>

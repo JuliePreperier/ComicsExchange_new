@@ -84,12 +84,11 @@ public class ExchangeFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("SelectedComicId", comicId);
                 fragmentManager = getActivity().getSupportFragmentManager();
-                fragment = new ExplorerDetailsFragment(); // aller sur ExchangeDetailFragment();
+                fragment = new ExchangeDetailsFragment();
                 fragment.setArguments(bundle);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.main_container, fragment).commit();
-
             }
         });
 
