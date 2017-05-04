@@ -64,9 +64,7 @@ public class ExchangeEditFragment extends Fragment {
             case R.id.edit_button_save:
                 Toast.makeText(getContext(), this.getString(R.string.editSaved), Toast.LENGTH_SHORT).show();
                 updateUser();
-                Toast.makeText(getContext(), "Edit saved", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
-                bundle.putInt("SelectedComicId", Integer.valueOf(idComic));
                 fragmentManager = getActivity().getSupportFragmentManager();
                 bundle.putInt(this.getString(R.string.selectedcomicid), Integer.valueOf(idComic));
                 fragment = new ExchangeDetailsFragment();

@@ -53,7 +53,6 @@ public class ExchangeDetailsFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.details_button_edit:
                 Bundle bundle = new Bundle();
-                bundle.putInt(this.getString(R.string.selectedcomicid), Integer.valueOf(idComic));
                 bundle.putInt("SelectedComicId", Integer.valueOf(idComic));
 
 

@@ -53,18 +53,14 @@ public class ExchangeAddFragment extends Fragment{
 
         switch (item.getItemId()){
             case R.id.add_button_save:
-                Toast.makeText(getContext(), this.getString(R.string.newcomicsaved), Toast.LENGTH_SHORT).show();
-                fragment = new ExchangeFragment();
-                fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_container, fragment).commit();
+
 
                 if(serie == null || Title == null || Number == null || Author == null || Synopsis == null || Language == null ){
                     Toast.makeText(getContext(), this.getString((R.string.infosFiled)), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     createComic();
-                    Toast.makeText(getContext(), "New comic saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), this.getString(R.string.newcomicsaved), Toast.LENGTH_SHORT).show();
                     fragment = new ExchangeFragment();
                     fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
