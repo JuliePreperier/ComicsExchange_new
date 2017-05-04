@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="français"/>
+    <item type="id" name="german"/>
+    <item type="id" name="english"/>
+</resources>

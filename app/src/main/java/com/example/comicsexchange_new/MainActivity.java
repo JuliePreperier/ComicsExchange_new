@@ -1,5 +1,6 @@
 package com.example.comicsexchange_new;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,8 +19,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+        int currentUserId=0;
+        if(currentIdNull(currentUserId)){
+            if(getIntent().getExtras().getInt(this.getString(R.string.currentUserId))!=0){
+                currentUserId = getIntent().getExtras().getInt(this.getString(R.string.currentUserId));
+            }
+            else{
+                currentUserId = getIntent().getExtras().getInt(this.getString(R.string.currentUserIdFromSettings));
+            }
+
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.inflateMenu(R.menu.navigation);
@@ -36,12 +53,17 @@ public class MainActivity extends AppCompatActivity {
             {
                 switch (item.getItemId())
                 {
-                    case R.id.navigation_home:
+                    case R.id.navigation_news:
                         fragment = new ExplorerDefaultFragment(); // new Fragment();
                         break;
-                    case R.id.navigation_dashboard:
+                    case R.id.navigation_search:
+                        fragment = new SearchFragment();
                         break;
-                    case R.id.navigation_notifications:
+                    case R.id.navigation_exchange:
+                        fragment = new ExchangeFragment();
+                        break;
+                    case R.id.navigation_settings:
+                        fragment = new SettingsFragment();
                         break;
                 }
 
@@ -50,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public boolean currentIdNull(int currentUserId){
+
+        if(currentUserId==0){
+            return true;
+        }
+        return false;
     }
 
 }
