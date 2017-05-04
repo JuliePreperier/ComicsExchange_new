@@ -48,4 +48,19 @@
     <string name="add_title">Titel</string>
     <string name="username">Benutzername</string>
     <string name="infosFiled">Fehlende informationen</string>
+    <string name="add">Hinzufügen</string>
+    <string name="currentUserId">currentUserId</string>
+    <string name="currentUserIdFromSettings">currentUserIdFromSettings</string>
+    <string name="details">Details</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="editSaved">Aufgezeichneten Änderungen</string>
+    <string name="iExchange">Ich tausche</string>
+    <string name="newcomicsaved">Neuer Comic gespeichert</string>
+    <string name="news">Neuheiten</string>
+    <string name="noComics">Keine Comics</string>
+    <string name="search">Suchen</string>
+    <string name="selectedcomicid">SelectedComicId</string>
+    <string name="settings">Einstellungen</string>
+    <string name="settingsSaved">Einstellungen gespeichert</string>
+    <string name="searchComics">Comics suchen...</string>
 </resources>

@@ -62,11 +62,13 @@ public class ExchangeEditFragment extends Fragment {
 
         switch (item.getItemId()){
             case R.id.edit_button_save:
+                Toast.makeText(getContext(), this.getString(R.string.editSaved), Toast.LENGTH_SHORT).show();
                 updateUser();
                 Toast.makeText(getContext(), "Edit saved", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
                 bundle.putInt("SelectedComicId", Integer.valueOf(idComic));
                 fragmentManager = getActivity().getSupportFragmentManager();
+                bundle.putInt(this.getString(R.string.selectedcomicid), Integer.valueOf(idComic));
                 fragment = new ExchangeDetailsFragment();
                 fragment.setArguments(bundle);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -85,10 +87,10 @@ public class ExchangeEditFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_exchange_edit, container, false);
 
-        getActivity().setTitle("Edit");
+        getActivity().setTitle(this.getString(R.string.edit));
 
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
-        int transferredId = getArguments().getInt("SelectedComicId");
+        int transferredId = getArguments().getInt(this.getString(R.string.selectedcomicid));
 
 
         /* -- RECUPERATION DES INFORMATIONS DANS LA BASE DE DONNEES -- */

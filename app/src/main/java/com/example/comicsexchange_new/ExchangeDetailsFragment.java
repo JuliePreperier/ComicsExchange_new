@@ -52,8 +52,8 @@ public class ExchangeDetailsFragment extends Fragment {
 
         switch (item.getItemId()){
             case R.id.details_button_edit:
-                Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
+                bundle.putInt(this.getString(R.string.selectedcomicid), Integer.valueOf(idComic));
                 bundle.putInt("SelectedComicId", Integer.valueOf(idComic));
 
 
@@ -77,13 +77,13 @@ public class ExchangeDetailsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         View view = inflater.inflate(R.layout.fragment_exchange_details, container, false);
-        getActivity().setTitle("Details");
+        getActivity().setTitle(this.getString(R.string.details));
 
 
 
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
 
-        int transferredId = getArguments().getInt("SelectedComicId");
+        int transferredId = getArguments().getInt(this.getString(R.string.selectedcomicid));
 
 
         /* -- RECUPERATION DES INFORMATIONS DANS LA BASE DE DONNEES -- */

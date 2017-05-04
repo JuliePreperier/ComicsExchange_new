@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
         int currentUserId=0;
         if(currentIdNull(currentUserId)){
-            if(getIntent().getExtras().getInt("currentUserId")!=0){
-                currentUserId = getIntent().getExtras().getInt("currentUserId");
+            if(getIntent().getExtras().getInt(this.getString(R.string.currentUserId))!=0){
+                currentUserId = getIntent().getExtras().getInt(this.getString(R.string.currentUserId));
             }
             else{
-                currentUserId = getIntent().getExtras().getInt("currentUserIdFromSettings");
+                currentUserId = getIntent().getExtras().getInt(this.getString(R.string.currentUserIdFromSettings));
             }
 
         }

@@ -113,7 +113,7 @@ public class LogInActivity extends AppCompatActivity {
         if(c.moveToFirst()){
             int currentUserId = c.getInt(0);
             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-            intent.putExtra("currentUserId",currentUserId);
+            intent.putExtra(this.getString(R.string.currentUserId),currentUserId);
             startActivity(intent);
             finish();
         }

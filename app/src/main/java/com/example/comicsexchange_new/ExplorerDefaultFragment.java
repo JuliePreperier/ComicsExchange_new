@@ -31,7 +31,7 @@ public class ExplorerDefaultFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_explorer_default, container, false);
-        getActivity().setTitle("News");
+        getActivity().setTitle(this.getString(R.string.news));
         listView = (ListView) view.findViewById(R.id.listViewExplorer);
 
         List<Comic> comics = generateComics();

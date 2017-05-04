@@ -65,13 +65,13 @@ public class ExplorerDetailsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_explorer_details, container, false);
 
-        getActivity().setTitle("Details");
+        getActivity().setTitle(this.getString(R.string.details));
 
         emailTitreTextView = (TextView)   view.findViewById(R.id.Email_Titre);
         emailTitreTextView.setVisibility(View.INVISIBLE);
 
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
-        int transferredId = getArguments().getInt("SelectedComicId");
+        int transferredId = getArguments().getInt(this.getString(R.string.selectedcomicid));
 
 
         /* -- RECUPERATION DES INFORMATIONS DANS LA BASE DE DONNEES -- */

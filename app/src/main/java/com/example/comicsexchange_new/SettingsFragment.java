@@ -51,7 +51,7 @@ public class SettingsFragment extends Fragment{
         switch (item.getItemId()){
             case R.id.settings_button_save:
                 updateUser();
-                Toast.makeText(getContext(), "Settings saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), this.getString(R.string.settingsSaved), Toast.LENGTH_SHORT).show();
                 if(spinner.getSelectedItem().toString().equals("Français")){
                     changeToFR(view);
                 }
@@ -73,16 +73,16 @@ public class SettingsFragment extends Fragment{
         setHasOptionsMenu(true);
 
         if(currentIdNull(currentUserId)){
-            if(getActivity().getIntent().getExtras().getInt("currentUserId")!=0){
-                currentUserId = getActivity().getIntent().getExtras().getInt("currentUserId");
+            if(getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserId))!=0){
+                currentUserId = getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserId));
             }
             else{
-                currentUserId = getActivity().getIntent().getExtras().getInt("currentUserIdFromSettings");
+                currentUserId = getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserIdFromSettings));
             }
         }
 
         view = inflater.inflate(R.layout.fragment_settings, container, false);
-        getActivity().setTitle("Settings");
+        getActivity().setTitle(this.getString(R.string.settings));
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
         //Create an ArrayAdapter using the string array and a default spinner layout
@@ -153,7 +153,7 @@ public class SettingsFragment extends Fragment{
 
 
         Intent intent = new Intent(getActivity(),MainActivity.class);
-        intent.putExtra("currentUserIdFromSettings",currentUserId);
+        intent.putExtra(this.getString(R.string.currentUserIdFromSettings),currentUserId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -170,7 +170,7 @@ public class SettingsFragment extends Fragment{
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
         Intent intent = new Intent(getActivity(),MainActivity.class);
-        intent.putExtra("currentUserIdFromSettings",currentUserId);
+        intent.putExtra(this.getString(R.string.currentUserIdFromSettings),currentUserId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -188,7 +188,7 @@ public class SettingsFragment extends Fragment{
 
 
         Intent intent = new Intent(getActivity(),MainActivity.class);
-        intent.putExtra("currentUserIdFromSettings",currentUserId);
+        intent.putExtra(this.getString(R.string.currentUserIdFromSettings),currentUserId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

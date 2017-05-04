@@ -47,5 +47,20 @@
     <string name="add_synopsis">Synopsis</string>
     <string name="add_title">Titre</string>
     <string name="username">Nom d\'utilisateur</string>
+    <string name="add">Ajouter</string>
+    <string name="currentUserId">currentUserId</string>
+    <string name="currentUserIdFromSettings">currentUserIdFromSettings</string>
+    <string name="details">Détails</string>
+    <string name="edit">Modifier</string>
+    <string name="editSaved">Modifications enregistrées</string>
+    <string name="iExchange">J\'échange</string>
+    <string name="newcomicsaved">Nouvelle bd enregistrée</string>
+    <string name="news">Nouveautés</string>
+    <string name="noComics">Aucune bd</string>
+    <string name="search">Rechercher</string>
+    <string name="selectedcomicid">SelectedComicId</string>
+    <string name="settings">Paramètres</string>
+    <string name="settingsSaved">Paramètres sauvegardés</string>
+    <string name="searchComics">Rechercher bds...</string>
     <string name="infosFiled">Informations manquantes</string>
 </resources>

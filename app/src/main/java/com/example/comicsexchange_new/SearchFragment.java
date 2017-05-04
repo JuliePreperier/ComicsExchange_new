@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment {
 
 
         // pour le titre de l'actionbar
-        getActivity().setTitle("Search");
+        getActivity().setTitle(this.getString(R.string.search));
 
         inputSearch = (EditText) view.findViewById(R.id.inputSearch);
 

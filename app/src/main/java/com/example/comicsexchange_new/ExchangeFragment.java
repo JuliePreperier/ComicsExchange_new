@@ -63,11 +63,11 @@ public class ExchangeFragment extends Fragment {
         // get the id of the connected user
         int currentUserId=0;
         if(currentIdNull(currentUserId)){
-            if(getActivity().getIntent().getExtras().getInt("currentUserId")!=0){
-                currentUserId = getActivity().getIntent().getExtras().getInt("currentUserId");
+            if(getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserId))!=0){
+                currentUserId = getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserId));
             }
             else{
-                currentUserId = getActivity().getIntent().getExtras().getInt("currentUserIdFromSettings");
+                currentUserId = getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserIdFromSettings));
             }
         }
 
@@ -75,7 +75,7 @@ public class ExchangeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_exchange, container, false);
 
         // set the title in the actionBar
-        getActivity().setTitle("I exchange");
+        getActivity().setTitle(this.getString(R.string.iExchange));
 
         // set the listview for the exchange part
         final ListView exchangeListView = (ListView) view.findViewById(R.id.listViewExchange);
@@ -118,7 +118,7 @@ public class ExchangeFragment extends Fragment {
         comics = comicDB.getComicsPerUser(currentUserId);
 
         if(comics.size() == 0){
-            Toast.makeText(getContext(),"0 comics",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),this.getString(R.string.noComics),Toast.LENGTH_SHORT).show();
         }
 
         return comics;

@@ -53,6 +53,11 @@ public class ExchangeAddFragment extends Fragment{
 
         switch (item.getItemId()){
             case R.id.add_button_save:
+                Toast.makeText(getContext(), this.getString(R.string.newcomicsaved), Toast.LENGTH_SHORT).show();
+                fragment = new ExchangeFragment();
+                fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container, fragment).commit();
 
                 if(serie == null || Title == null || Number == null || Author == null || Synopsis == null || Language == null ){
                     Toast.makeText(getContext(), this.getString((R.string.infosFiled)), Toast.LENGTH_SHORT).show();
@@ -82,7 +87,7 @@ public class ExchangeAddFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_exchange_add, container, false);
 
-        getActivity().setTitle("Add");
+        getActivity().setTitle(this.getString(R.string.add));
 
         return view;
     }
