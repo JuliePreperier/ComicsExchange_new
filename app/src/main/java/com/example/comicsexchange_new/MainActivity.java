@@ -18,7 +18,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        int currentUserId = getIntent().getExtras().getInt("currentUserId");
+        int currentUserId=0;
+        if(currentIdNull(currentUserId)){
+            if(getIntent().getExtras().getInt("currentUserId")!=0){
+                currentUserId = getIntent().getExtras().getInt("currentUserId");
+            }
+            else{
+                currentUserId = getIntent().getExtras().getInt("currentUserIdFromSettings");
+            }
+
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -58,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public boolean currentIdNull(int currentUserId){
+
+        if(currentUserId==0){
+            return true;
+        }
+        return false;
     }
 
 }

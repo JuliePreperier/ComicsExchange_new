@@ -24,6 +24,7 @@ public class SettingsFragment extends Fragment{
 
     Spinner spinner;
     View view;
+    int currentId;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -89,7 +90,10 @@ public class SettingsFragment extends Fragment{
 
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
+        currentId = getActivity().getIntent().getExtras().getInt("currentUserId");
+
         Intent intent = new Intent(getActivity(),MainActivity.class);
+        intent.putExtra("currentUserIdFromSettings",currentId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -105,7 +109,10 @@ public class SettingsFragment extends Fragment{
 
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
+        currentId = getActivity().getIntent().getExtras().getInt("currentUserId");
+
         Intent intent = new Intent(getActivity(),MainActivity.class);
+        intent.putExtra("currentUserIdFromSettings",currentId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -121,7 +128,10 @@ public class SettingsFragment extends Fragment{
 
         getResources().updateConfiguration(config,v.getResources().getDisplayMetrics());
 
+        currentId = getActivity().getIntent().getExtras().getInt("currentUserId");
+
         Intent intent = new Intent(getActivity(),MainActivity.class);
+        intent.putExtra("currentUserIdFromSettings",currentId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
