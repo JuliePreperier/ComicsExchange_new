@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +33,10 @@ public class ExchangeDetailsFragment extends Fragment {
     String idSerie;
     String idPhoto;
 
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
+
+
     public ExchangeDetailsFragment() {
         // Required empty public constructor
     }
@@ -47,6 +53,9 @@ public class ExchangeDetailsFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.details_button_edit:
                 Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
+                fragment = new ExchangeEditFragment();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container, fragment).commit();
                 return true;
         }
         return false;
