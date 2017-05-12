@@ -100,7 +100,6 @@ public class OwnerBooksEndpoint {
             path = "ownerBooks/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
     public OwnerBooks update(@Named("id") int id, OwnerBooks ownerBooks) throws NotFoundException {
-        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(ownerBooks).now();
         logger.info("Updated OwnerBooks: " + ownerBooks);

@@ -100,7 +100,6 @@ public class ComicEndpoint {
             path = "comic/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
     public Comic update(@Named("id") int id, Comic comic) throws NotFoundException {
-        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(comic).now();
         logger.info("Updated Comic: " + comic);

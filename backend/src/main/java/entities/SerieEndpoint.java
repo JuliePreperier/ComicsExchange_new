@@ -100,7 +100,6 @@ public class SerieEndpoint {
             path = "serie/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
     public Serie update(@Named("id") int id, Serie serie) throws NotFoundException {
-        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(serie).now();
         logger.info("Updated Serie: " + serie);
