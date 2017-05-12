@@ -25,7 +25,7 @@ public class Comic {
     private int idAuthor;
     private int idSerie;
 
-    
+
     public int getIdAuthor() {
         return idAuthor;
     }

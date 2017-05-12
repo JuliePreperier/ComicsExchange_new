@@ -100,7 +100,6 @@ public class UserEndpoint {
             path = "user/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
     public User update(@Named("id") int id, User user) throws NotFoundException {
-        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(user).now();
         logger.info("Updated User: " + user);

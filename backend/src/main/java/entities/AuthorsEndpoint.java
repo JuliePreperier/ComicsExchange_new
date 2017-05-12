@@ -100,7 +100,6 @@ public class AuthorsEndpoint {
             path = "authors/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
     public Authors update(@Named("id") int id, Authors authors) throws NotFoundException {
-        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(authors).now();
         logger.info("Updated Authors: " + authors);
