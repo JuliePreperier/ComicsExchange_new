@@ -58,7 +58,7 @@ public class ComicEndpoint {
             name = "get",
             path = "comic/{id}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public Comic get(@Named("id") int id) throws NotFoundException {
+    public Comic get(@Named("id") Long id) throws NotFoundException {
         logger.info("Getting Comic with ID: " + id);
         Comic comic = ofy().load().type(Comic.class).id(id).now();
         if (comic == null) {
@@ -99,7 +99,8 @@ public class ComicEndpoint {
             name = "update",
             path = "comic/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public Comic update(@Named("id") int id, Comic comic) throws NotFoundException {
+    public Comic update(@Named("id") Long id, Comic comic) throws NotFoundException {
+        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(comic).now();
         logger.info("Updated Comic: " + comic);
@@ -117,7 +118,7 @@ public class ComicEndpoint {
             name = "remove",
             path = "comic/{id}",
             httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void remove(@Named("id") int id) throws NotFoundException {
+    public void remove(@Named("id") Long id) throws NotFoundException {
         checkExists(id);
         ofy().delete().type(Comic.class).id(id).now();
         logger.info("Deleted Comic with ID: " + id);
@@ -148,7 +149,7 @@ public class ComicEndpoint {
         return CollectionResponse.<Comic>builder().setItems(comicList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
-    private void checkExists(int id) throws NotFoundException {
+    private void checkExists(Long id) throws NotFoundException {
         try {
             ofy().load().type(Comic.class).id(id).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {
