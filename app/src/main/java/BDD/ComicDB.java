@@ -16,6 +16,7 @@ import java.util.List;
 public class ComicDB {
 
     private DbHelper db;
+    int compteur=0;
 
     public ComicDB(DbHelper db){
         this.db=db;
@@ -111,17 +112,18 @@ public class ComicDB {
         //looping through the 5 rows from the bottom of the table and adding the object to list
 
         if(c.moveToLast()){
-            for(int i=0;i<5;i++){
-                int id = c.getInt(c.getColumnIndex(Contract.Comic._ID));
-                String titre = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_TITRE));
-                String text = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_SYNOPSIS));
-                String picture = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_PHOTO));
-                Comic comic =  new Comic(id,picture,titre,text);
+            do{
+                    int id = c.getInt(c.getColumnIndex(Contract.Comic._ID));
+                    String titre = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_TITRE));
+                    String text = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_SYNOPSIS));
+                    String picture = c.getString(c.getColumnIndex(Contract.Comic.COLUMN_NAME_PHOTO));
+                    Comic comic = new Comic(id, picture, titre, text);
 
-                // adding to comic list
-                comics.add(comic);
-                c.moveToPrevious();
-            };
+                    // adding to comic list
+                    comics.add(comic);
+                    c.moveToPrevious();
+                    compteur++;
+            }while (c.moveToPrevious() && compteur<5);
         }
 
         return comics;

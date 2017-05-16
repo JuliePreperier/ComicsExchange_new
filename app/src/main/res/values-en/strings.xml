@@ -63,4 +63,5 @@
     <string name="settingsSaved">Settings saved</string>
     <string name="searchComics">Search comics...</string>
     <string name="infosFiled">Information missing</string>
+    <string name="SuppressionUser">Delete user</string>
 </resources>

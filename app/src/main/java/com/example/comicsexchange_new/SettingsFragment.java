@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -33,6 +36,9 @@ public class SettingsFragment extends Fragment{
     EditText username;
     EditText password;
     EditText email;
+
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
 
 
     public SettingsFragment() {
@@ -85,13 +91,25 @@ public class SettingsFragment extends Fragment{
         getActivity().setTitle(this.getString(R.string.settings));
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        //Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.language_array,
-                android.R.layout.simple_spinner_item);
-        //Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        updateSpinner();
+        spinner.setSelection(MainActivity.spinnerposition);
+
+
+        Button deleteButton = (Button) view.findViewById(R.id.suppressButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DbHelper db = new DbHelper(view.getContext());
+                db.deleteUser(view.getContext(),currentUserId);
+
+                Intent intent = new Intent(getActivity(),LogInActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
 
 
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
@@ -142,6 +160,7 @@ public class SettingsFragment extends Fragment{
 
     //Méthode pour changer la langue en français
     public void changeToFR(View v){
+        MainActivity.spinnerposition=0;
         String languageToLoad="fr";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -160,6 +179,7 @@ public class SettingsFragment extends Fragment{
 
     //Méthode pour changer la langue en anglais
     public void changeToEN(View v){
+        MainActivity.spinnerposition=1;
         String languageToLoad="en";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -177,6 +197,7 @@ public class SettingsFragment extends Fragment{
 
     //Méthode pour changer la langue en allemand
     public void changeToDE(View v){
+        MainActivity.spinnerposition=2;
         String languageToLoad="de";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -202,6 +223,17 @@ public class SettingsFragment extends Fragment{
         }
         return false;
     }
+
+    public void updateSpinner(){
+        //Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.language_array,
+                android.R.layout.simple_spinner_item);
+        //Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+    }
+
 
 
 }

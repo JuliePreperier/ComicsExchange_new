@@ -63,4 +63,5 @@
     <string name="settings">Einstellungen</string>
     <string name="settingsSaved">Einstellungen gespeichert</string>
     <string name="searchComics">Comics suchen...</string>
+    <string name="SuppressionUser">Benutzer löschen</string>
 </resources>
