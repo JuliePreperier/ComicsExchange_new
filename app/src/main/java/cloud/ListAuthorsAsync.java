@@ -1,5 +1,7 @@
 package cloud;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -24,6 +26,7 @@ public class ListAuthorsAsync extends AsyncTask<Void, Void, List<Authors>> {
 
         private static AuthorsApi authorsAPI = null;
         private DbHelper db;
+        private SQLiteDatabase database;
 
         public ListAuthorsAsync(DbHelper db) {
             this.db = db;
@@ -60,6 +63,7 @@ public class ListAuthorsAsync extends AsyncTask<Void, Void, List<Authors>> {
         @Override
         protected void onPostExecute(List<Authors> authors) {
 
+            new ListSerieAsync(db).execute();
 
             if (authors != null) {
                 db.fromCloudAuhtor(authors);

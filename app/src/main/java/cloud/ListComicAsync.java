@@ -57,6 +57,7 @@ public class ListComicAsync extends AsyncTask<Void, Void, List<Comic>> {
     @Override
     protected void onPostExecute(List<Comic> comics) {
 
+        new ListOwnerBooksAsync(db).execute();
 
         if (comics != null) {
             db.fromCloudComic(comics);

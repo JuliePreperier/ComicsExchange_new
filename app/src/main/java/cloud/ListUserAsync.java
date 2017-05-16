@@ -1,6 +1,10 @@
 package cloud;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+
+import com.example.comicsexchange_new.LogInActivity;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -21,6 +25,7 @@ public class ListUserAsync extends AsyncTask<Void, Void, List<User>> {
 
     private static UserApi userAPI = null;
     private DbHelper db;
+    public SQLiteDatabase database;
 
     public ListUserAsync(DbHelper db) {
         this.db = db;
@@ -33,6 +38,7 @@ public class ListUserAsync extends AsyncTask<Void, Void, List<User>> {
 
     @Override
     protected List<User> doInBackground(Void... params) {
+
         if (userAPI == null) {
             UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null);
@@ -56,6 +62,7 @@ public class ListUserAsync extends AsyncTask<Void, Void, List<User>> {
 
     @Override
     protected void onPostExecute(List<User> users) {
+        new ListAuthorsAsync(db).execute();
 
         if (users != null) {
             db.fromCloudUser(users);

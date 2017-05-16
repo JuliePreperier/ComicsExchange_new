@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import BDD.Contract;
 import BDD.DbHelper;
+import cloud.InsertAuthorsAsync;
+import entities.Authors;
 
 /**
  * Created by Sandy on 04.05.2017.
@@ -132,6 +134,8 @@ public class ExchangeAddFragment extends Fragment{
 
         DbHelper database = new DbHelper(getContext());
         database.insertAuthors(getContext(),strgAuthor);
+        Authors author =
+        new InsertAuthorsAsync();
 
         Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Authors.TABLE_NAME+" WHERE "+ Contract.Authors.COLUMN_NAME_LASTNAME+" = '"+strgAuthor+"'",null);
 

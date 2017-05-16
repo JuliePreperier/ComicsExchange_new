@@ -59,6 +59,7 @@ public class ListSerieAsync extends AsyncTask<Void, Void, List<Serie>> {
     @Override
     protected void onPostExecute(List<Serie> series) {
 
+        new ListComicAsync(db).execute();
 
         if (series != null) {
             db.fromCloudSerie(series);
