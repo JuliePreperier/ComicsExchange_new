@@ -69,35 +69,8 @@ public class LogInActivity extends AppCompatActivity {
 
         Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Comic.TABLE_NAME,null);
 
-        if(c.moveToFirst()==false){
-            myDBHelper.insertAuthors(this,"lastname");
-            myDBHelper.insertSeries(this,"Marvel","blabla",1);
-            myDBHelper.insertSeries(this,"Marsupilami","FilmOffice",1);
-            myDBHelper.insertSeries(this,"Spirou","Dupuis",1);
-            myDBHelper.insertUser(this,"Eliwe","1234","julie.preperier@netplus.ch");
-            myDBHelper.insertUser(this,"Devil","5678","sandy.millius@students.hevs.ch");
-            myDBHelper.insertUser(this,"Deade","1357","colin.chappot@students.hevs.ch");
-            myDBHelper.insertComic(this,1,3,1,1,"Captain America","Français","capt. america","capt");
-            myDBHelper.insertComic(this,1,9,1,1,"Hulk","Français","comic des aventures de Hulk","hulk");
-            myDBHelper.insertComic(this,1,13,1,1,"Iron Man","Français","Nouveau Marvel sur Iron Man","iron");
-            myDBHelper.insertComic(this,2,64,1,1,"Thor","Français","Thor dans une nouvelle aventure","thor");
-            myDBHelper.insertComic(this,2,24,1,1,"Wolverine","Français","Le préféré de tous les X-men","wol");
-            myDBHelper.insertComic(this,2,15,1,3,"Spirou","Français","Edition spéciale des 75 ans de Spirou","spirou");
-            myDBHelper.insertComic(this,2,7,1,2,"Marsupilami","Français","Les aventures du Marsupilami","marsu");
-        }
-
     }
 
-    private User generateUser(int currentUserId){
-        User user = new User();
-
-        DbHelper db = new DbHelper(getApplicationContext());
-        UserDB userDB = new UserDB(db);
-
-        user = userDB.getUser(currentUserId);
-
-        return user;
-    }
 
     public void checkData(){
 

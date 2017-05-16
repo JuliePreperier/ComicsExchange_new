@@ -32,6 +32,7 @@ public class ExchangeDetailsFragment extends Fragment {
     String idComic;
     String idSerie;
     String idPhoto;
+    int transferredId;
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -62,6 +63,14 @@ public class ExchangeDetailsFragment extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
                 return true;
+            case R.id.details_button_delete:
+                deleteComic(transferredId);
+
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragment = new ExchangeFragment();
+                FragmentTransaction transaction2 = fragmentManager.beginTransaction();
+                transaction2.replace(R.id.main_container, fragment).commit();
+                return true;
         }
         return false;
     }
@@ -82,7 +91,7 @@ public class ExchangeDetailsFragment extends Fragment {
 
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
 
-        int transferredId = getArguments().getInt(this.getString(R.string.selectedcomicid));
+        transferredId = getArguments().getInt(this.getString(R.string.selectedcomicid));
 
 
         /* -- RECUPERATION DES INFORMATIONS DANS LA BASE DE DONNEES -- */
@@ -122,6 +131,7 @@ public class ExchangeDetailsFragment extends Fragment {
             int resId = res.getIdentifier(info,"drawable", view.getContext().getPackageName());
             ImageView imageComicView = (ImageView) view.findViewById(R.id.imageView);
             imageComicView.setImageResource(resId);
+
 
 
 
@@ -173,6 +183,11 @@ public class ExchangeDetailsFragment extends Fragment {
         }
 
         return view;
+    }
+
+    public void deleteComic(int selectedComic){
+        DbHelper db = new DbHelper(this.getContext());
+        db.deleteComic(getContext(),selectedComic);
     }
 
 }

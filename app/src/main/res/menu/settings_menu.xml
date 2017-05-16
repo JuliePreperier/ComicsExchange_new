@@ -9,4 +9,13 @@
         android:icon="@drawable/ic_save"
         />
 
+    <item
+        android:id="@+id/settings_button_sync"
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_sync"
+        />
+
+
+
 </menu>

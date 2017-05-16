@@ -133,15 +133,12 @@ public class ExchangeAddFragment extends Fragment{
         DbHelper database = new DbHelper(getContext());
         database.insertAuthors(getContext(),strgAuthor);
 
-
         Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Authors.TABLE_NAME+" WHERE "+ Contract.Authors.COLUMN_NAME_LASTNAME+" = '"+strgAuthor+"'",null);
 
         c.moveToFirst();
         idAuthor = c.getInt(0);
 
         database.insertSeries(getContext(),strgSerie,"",idAuthor);
-
-
 
         Cursor c2 = db.rawQuery("SELECT * FROM "+ Contract.Series.TABLE_NAME+" WHERE "+ Contract.Series.COLUMN_NAME_SERIENAME+" = '"+strgSerie+"'",null);
 

@@ -9,5 +9,12 @@
         android:icon="@drawable/ic_exchangedetails_edit"
         />
 
+    <item
+        android:id="@+id/details_button_delete"
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_exchangedetails_delete"
+        />
+
 
 </menu>

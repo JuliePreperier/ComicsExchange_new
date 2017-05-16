@@ -55,6 +55,7 @@
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="20sp"
             android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -101,6 +102,13 @@
             android:text="MyPassword"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/suppressButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/SuppressionUser"
+            android:layout_marginTop="50dp"/>
 
     </LinearLayout>
 </FrameLayout>

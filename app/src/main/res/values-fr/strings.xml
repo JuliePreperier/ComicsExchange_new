@@ -63,4 +63,5 @@
     <string name="settingsSaved">Paramètres sauvegardés</string>
     <string name="searchComics">Rechercher bds...</string>
     <string name="infosFiled">Informations manquantes</string>
+    <string name="SuppressionUser">Supprimer utilisateur</string>
 </resources>

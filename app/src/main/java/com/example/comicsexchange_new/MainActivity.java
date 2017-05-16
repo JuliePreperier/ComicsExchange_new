@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigation;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    public static int spinnerposition=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

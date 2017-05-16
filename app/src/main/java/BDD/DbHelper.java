@@ -119,7 +119,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-
     // deleting a comic from the database with id
     public void deleteComic(Context context,int id){
         DbHelper myDBHelper = new DbHelper(context);
@@ -129,7 +128,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.delete(Contract.Comic.TABLE_NAME, Contract.Comic._ID+" = ?",new String[]{String.valueOf(id)});
 
     }
-
 
     // Inserting a new User in the database
     public void insertUser(Context context, String username, String password, String email){
@@ -146,6 +144,17 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+    // deleting a comic from the database with id
+    public void deleteUser(Context context,int id){
+        DbHelper myDBHelper = new DbHelper(context);
+
+        SQLiteDatabase db = myDBHelper.getWritableDatabase();
+
+        deleteOwnerBook(context,id);
+        db.delete(Contract.Users.TABLE_NAME, Contract.Users._ID+" = ?",new String[]{String.valueOf(id)});
+
+
+    }
 
     // inserting data in the join table between User and Comic
     public void insertOwnerBooks(Context context, int idUser, int idBook){
@@ -158,6 +167,30 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(Contract.Ownerbooks.COLUMN_NAME_IDBOOK, idBook);
 
         db.insert(Contract.Ownerbooks.TABLE_NAME,null,values);
+    }
+
+
+
+    public void deleteOwnerBook(Context context, int idUser){
+        DbHelper myDbHelper = new DbHelper(context);
+
+        String query = "SELECT * FROM "+Contract.Ownerbooks.TABLE_NAME+" WHERE "+Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = '"+idUser+"'";
+
+        SQLiteDatabase db = myDbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(query,null);
+
+        if(c.moveToFirst()){
+            do{
+                int idComic = c.getInt(2);
+                deleteComic(context,idComic);
+            }while (c.moveToNext());
+        }
+
+        db=myDbHelper.getWritableDatabase();
+        db.delete(Contract.Ownerbooks.TABLE_NAME,Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = ?",new String[]{String.valueOf(idUser)});
+
+       // SQLiteDatabase db = myDbHelper.getWritableDatabase();
+
     }
 
 
