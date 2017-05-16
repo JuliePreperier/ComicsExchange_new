@@ -272,6 +272,48 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+    public void toCloudUser(){
+
+        SQLiteDatabase dbR= new DbHelper(context).getReadableDatabase();
+
+        Cursor c = dbR.rawQuery("SELECT * from "+ Contract.Users.TABLE_NAME, null);
+
+
+        if (c.moveToFirst())
+        {
+            do {
+                entities.userApi.model.User user = new entities.userApi.model.User();
+                user.setId(Long.valueOf(c.getString(0)));
+                user.setUsername(c.getString(1));
+                user.setPassword(c.getString(2));
+                user.setEmail(c.getString(3));
+
+                new InsertUserAsync(user).execute();
+
+            }while (c.moveToNext());
+        }
+        Log.e("debugCloud","all User data saved");
+    }
+
+    public void fromCloudUser(List<entities.userApi.model.User> items){
+        DbHelper db = new DbHelper(context);
+        SQLiteDatabase sqlDB = db.getReadableDatabase();
+        sqlDB.delete(Contract.Users.TABLE_NAME, null, null);
+
+        for (entities.userApi.model.User t : items) {
+            ContentValues value = new ContentValues();
+            value.put(Contract.Users._ID, t.getId());
+            value.put(Contract.Users.COLUMN_NAME_USERNAME, t.getUsername());
+            value.put(Contract.Users.COLUMN_NAME_PASSWORD, t.getPassword());
+            value.put(Contract.Users.COLUMN_NAME_EMAIL,t.getEmail());
+
+
+            sqlDB.insert(Contract.Users.TABLE_NAME, null,value);
+        }
+        sqlDB.close();
+        Log.e("debugCloud","all User data got");
+    }
+
     // deleting a comic from the database with id
     public void deleteUser(Context context,int id){
         DbHelper myDBHelper = new DbHelper(context);
@@ -401,6 +443,46 @@ public class DbHelper extends SQLiteOpenHelper {
 
        // SQLiteDatabase db = myDbHelper.getWritableDatabase();
 
+    }
+
+    public void toCloudOwnerBook(){
+
+        SQLiteDatabase dbR= new DbHelper(context).getReadableDatabase();
+
+        Cursor c = dbR.rawQuery("SELECT * from "+ Contract.Ownerbooks.TABLE_NAME, null);
+
+
+        if (c.moveToFirst())
+        {
+            do {
+                entities.ownerBooksApi.model.OwnerBooks ownerBook = new entities.ownerBooksApi.model.OwnerBooks();
+                ownerBook.setId(Long.valueOf(c.getString(0)));
+                ownerBook.setIdUser(c.getInt(1));
+                ownerBook.setIdComic(c.getInt(2));
+
+                //     new TownAsyncTask(town, db, settingsActivity).execute();
+
+            }while (c.moveToNext());
+        }
+        Log.e("debugCloud","all OwnerBook data saved");
+    }
+
+    public void fromCloudOwnerBook(List<entities.ownerBooksApi.model.OwnerBooks> items){
+        DbHelper db = new DbHelper(context);
+        SQLiteDatabase sqlDB = db.getReadableDatabase();
+        sqlDB.delete(Contract.Ownerbooks.TABLE_NAME, null, null);
+
+        for (entities.ownerBooksApi.model.OwnerBooks t : items) {
+            ContentValues value = new ContentValues();
+            value.put(Contract.Ownerbooks._ID, t.getId());
+            value.put(Contract.Ownerbooks.COLUMN_NAME_IDUSER, t.getIdUser());
+            value.put(Contract.Ownerbooks.COLUMN_NAME_IDBOOK, t.getIdComic());
+
+
+            sqlDB.insert(Contract.Ownerbooks.TABLE_NAME, null,value);
+        }
+        sqlDB.close();
+        Log.e("debugCloud","all OwnerBook data got");
     }
 
 
