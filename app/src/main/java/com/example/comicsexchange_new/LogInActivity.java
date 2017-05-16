@@ -14,6 +14,8 @@ import android.widget.Toast;
 import BDD.Contract;
 import BDD.DbHelper;
 import BDD.UserDB;
+import cloud.ListAuthorsAsync;
+import cloud.ListUserAsync;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -46,7 +48,7 @@ public class LogInActivity extends AppCompatActivity {
         });
 
         db = myDBHelper.getReadableDatabase();
-
+        new ListUserAsync(new DbHelper(this)).execute();
 
         Button loginButton = (Button) findViewById(R.id.buttonConnect);
         loginButton.setOnClickListener(new View.OnClickListener() {

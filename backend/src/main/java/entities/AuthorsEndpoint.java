@@ -58,7 +58,7 @@ public class AuthorsEndpoint {
             name = "get",
             path = "authors/{id}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public Authors get(@Named("id") int id) throws NotFoundException {
+    public Authors get(@Named("id") Long id) throws NotFoundException {
         logger.info("Getting Authors with ID: " + id);
         Authors authors = ofy().load().type(Authors.class).id(id).now();
         if (authors == null) {
@@ -99,7 +99,8 @@ public class AuthorsEndpoint {
             name = "update",
             path = "authors/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public Authors update(@Named("id") int id, Authors authors) throws NotFoundException {
+    public Authors update(@Named("id") Long id, Authors authors) throws NotFoundException {
+        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(authors).now();
         logger.info("Updated Authors: " + authors);
@@ -117,7 +118,7 @@ public class AuthorsEndpoint {
             name = "remove",
             path = "authors/{id}",
             httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void remove(@Named("id") int id) throws NotFoundException {
+    public void remove(@Named("id") Long id) throws NotFoundException {
         checkExists(id);
         ofy().delete().type(Authors.class).id(id).now();
         logger.info("Deleted Authors with ID: " + id);
@@ -148,7 +149,7 @@ public class AuthorsEndpoint {
         return CollectionResponse.<Authors>builder().setItems(authorsList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
-    private void checkExists(int id) throws NotFoundException {
+    private void checkExists(Long id) throws NotFoundException {
         try {
             ofy().load().type(Authors.class).id(id).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {

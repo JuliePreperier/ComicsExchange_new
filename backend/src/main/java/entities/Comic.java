@@ -15,7 +15,7 @@ public class Comic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String number;
     private String titre;
@@ -42,11 +42,11 @@ public class Comic {
         this.idSerie = idSerie;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

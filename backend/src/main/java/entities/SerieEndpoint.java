@@ -58,7 +58,7 @@ public class SerieEndpoint {
             name = "get",
             path = "serie/{id}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public Serie get(@Named("id") int id) throws NotFoundException {
+    public Serie get(@Named("id") Long id) throws NotFoundException {
         logger.info("Getting Serie with ID: " + id);
         Serie serie = ofy().load().type(Serie.class).id(id).now();
         if (serie == null) {
@@ -99,7 +99,8 @@ public class SerieEndpoint {
             name = "update",
             path = "serie/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public Serie update(@Named("id") int id, Serie serie) throws NotFoundException {
+    public Serie update(@Named("id") Long id, Serie serie) throws NotFoundException {
+        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(serie).now();
         logger.info("Updated Serie: " + serie);
@@ -117,7 +118,7 @@ public class SerieEndpoint {
             name = "remove",
             path = "serie/{id}",
             httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void remove(@Named("id") int id) throws NotFoundException {
+    public void remove(@Named("id") Long id) throws NotFoundException {
         checkExists(id);
         ofy().delete().type(Serie.class).id(id).now();
         logger.info("Deleted Serie with ID: " + id);
@@ -148,7 +149,7 @@ public class SerieEndpoint {
         return CollectionResponse.<Serie>builder().setItems(serieList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
-    private void checkExists(int id) throws NotFoundException {
+    private void checkExists(Long id) throws NotFoundException {
         try {
             ofy().load().type(Serie.class).id(id).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {

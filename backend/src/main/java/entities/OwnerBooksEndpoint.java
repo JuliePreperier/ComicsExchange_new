@@ -58,7 +58,7 @@ public class OwnerBooksEndpoint {
             name = "get",
             path = "ownerBooks/{id}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public OwnerBooks get(@Named("id") int id) throws NotFoundException {
+    public OwnerBooks get(@Named("id") Long id) throws NotFoundException {
         logger.info("Getting OwnerBooks with ID: " + id);
         OwnerBooks ownerBooks = ofy().load().type(OwnerBooks.class).id(id).now();
         if (ownerBooks == null) {
@@ -99,7 +99,8 @@ public class OwnerBooksEndpoint {
             name = "update",
             path = "ownerBooks/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public OwnerBooks update(@Named("id") int id, OwnerBooks ownerBooks) throws NotFoundException {
+    public OwnerBooks update(@Named("id") Long id, OwnerBooks ownerBooks) throws NotFoundException {
+        // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(ownerBooks).now();
         logger.info("Updated OwnerBooks: " + ownerBooks);
@@ -117,7 +118,7 @@ public class OwnerBooksEndpoint {
             name = "remove",
             path = "ownerBooks/{id}",
             httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void remove(@Named("id") int id) throws NotFoundException {
+    public void remove(@Named("id") Long id) throws NotFoundException {
         checkExists(id);
         ofy().delete().type(OwnerBooks.class).id(id).now();
         logger.info("Deleted OwnerBooks with ID: " + id);
@@ -148,7 +149,7 @@ public class OwnerBooksEndpoint {
         return CollectionResponse.<OwnerBooks>builder().setItems(ownerBooksList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
-    private void checkExists(int id) throws NotFoundException {
+    private void checkExists(Long id) throws NotFoundException {
         try {
             ofy().load().type(OwnerBooks.class).id(id).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {
