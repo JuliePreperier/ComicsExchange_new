@@ -12,7 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import BDD.Contract;
@@ -24,13 +24,13 @@ import BDD.DbHelper;
 
 public class ExchangeAddFragment extends Fragment{
 
-    TextView serie;
-    TextView Title;
-    TextView Number;
-    TextView Owner;
-    TextView Author;
-    TextView Synopsis;
-    TextView Language;
+    EditText serie;
+    EditText title;
+    EditText number;
+    EditText author;
+    EditText synopsis;
+    EditText language;
+    int currentUserId=0;
 
 
 
@@ -54,21 +54,12 @@ public class ExchangeAddFragment extends Fragment{
         switch (item.getItemId()){
             case R.id.add_button_save:
 
-
-                if(serie == null || Title == null || Number == null || Author == null || Synopsis == null || Language == null ){
-                    Toast.makeText(getContext(), this.getString((R.string.infosFiled)), Toast.LENGTH_SHORT).show();
-                }
-                else{
                     createComic();
                     Toast.makeText(getContext(), this.getString(R.string.newcomicsaved), Toast.LENGTH_SHORT).show();
                     fragment = new ExchangeFragment();
                     fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.main_container, fragment).commit();
-                }
-
-
-
 
                 return true;
         }
@@ -85,46 +76,88 @@ public class ExchangeAddFragment extends Fragment{
 
         getActivity().setTitle(this.getString(R.string.add));
 
+        // get the id of the connected user
+
+        serie = (EditText) view.findViewById(R.id.Serie_view);
+        title = (EditText) view.findViewById(R.id.Title_view);
+        number = (EditText) view.findViewById(R.id.Number_view);
+        author = (EditText) view.findViewById(R.id.Author_view);
+        synopsis = (EditText) view.findViewById(R.id.Synopsis_view);
+        language = (EditText) view.findViewById(R.id.language_view);
+
+
+        if(currentIdNull(currentUserId)){
+            if(getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserId))!=0){
+                currentUserId = getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserId));
+            }
+            else{
+                currentUserId = getActivity().getIntent().getExtras().getInt(this.getString(R.string.currentUserIdFromSettings));
+            }
+        }
+
         return view;
     }
 
     public void createComic(){
 
         String strgSerie=serie.getText().toString().trim();
-        String strgTitle=Title.getText().toString().trim();
-        String strgNumber=Number.getText().toString().trim();
-        String strgOwner=Owner.getText().toString().trim();
-        String strgAuthor= Author.getText().toString().trim();
-        String strgSynopsis=Synopsis.getText().toString().trim();
-        String strgLanuage=Language.getText().toString().trim();
+        if(strgSerie == null){
+            strgSerie = "";
+        }
+        String strgTitle= title.getText().toString().trim();
+        if(strgTitle==null){
+            strgTitle="";
+        }
+        String strgNumber= number.getText().toString().trim();
+        if(strgNumber==null){
+            strgNumber="";
+        }
+        String strgAuthor= author.getText().toString().trim();
+        if(strgAuthor==null){
+            strgAuthor="";
+        }
+        String strgSynopsis= synopsis.getText().toString().trim();
+        if(strgSynopsis==null){
+            strgSynopsis="";
+        }
+        String strgLanguage= language.getText().toString().trim();
+        if(strgLanguage==null){
+            strgLanguage="";
+        }
 
         int idAuthor;
         int idSerie;
 
         SQLiteDatabase db = new DbHelper(getContext()).getWritableDatabase();
-        SQLiteDatabase db2 = new DbHelper(getContext()).getReadableDatabase();
 
-        String strSQL1 = "INSERT INTO "+ Contract.Authors.TABLE_NAME+" ("+ Contract.Authors.COLUMN_NAME_LASTNAME+") VALUES" +
-                " ('"+strgAuthor+"')";
+        DbHelper database = new DbHelper(getContext());
+        database.insertAuthors(getContext(),strgAuthor);
+
 
         Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Authors.TABLE_NAME+" WHERE "+ Contract.Authors.COLUMN_NAME_LASTNAME+" = '"+strgAuthor+"'",null);
 
         c.moveToFirst();
         idAuthor = c.getInt(0);
 
+        database.insertSeries(getContext(),strgSerie,"",idAuthor);
 
-        String strSQL2 = " INSERT INTO "+ Contract.Series.TABLE_NAME+" ("+ Contract.Series.COLUMN_NAME_EDITION_HOUSE+", "+ Contract.Series.COLUMN_NAME_SERIENAME+", "+ Contract.Series.COLUMN_NAME_IDAUTHOR+")" +
-                " VALUES ('edition hous', '"+strgSerie+"', '"+idAuthor+"')";
+
 
         Cursor c2 = db.rawQuery("SELECT * FROM "+ Contract.Series.TABLE_NAME+" WHERE "+ Contract.Series.COLUMN_NAME_SERIENAME+" = '"+strgSerie+"'",null);
 
-        c.moveToFirst();
-        idSerie = c.getInt(0);
+        c2.moveToFirst();
+        idSerie = c2.getInt(0);
 
-        String strSQL3 = " INSERT INTO "+ Contract.Comic.TABLE_NAME+" ("+ Contract.Comic.COLUMN_NAME_IDSERIE+", "+ Contract.Comic.COLUMN_NAME_IDAUTHOR+", "
-                + Contract.Comic.COLUMN_NAME_SYNOPSIS+", "+ Contract.Comic.COLUMN_NAME_LANGUAGE+", "+ Contract.Comic.COLUMN_NAME_NUMBER+", "+ Contract.Comic.COLUMN_NAME_TITRE+")" +
-                " VALUES ('"+idSerie+"', '"+idAuthor+"', '"+strgAuthor+"', '"+strgSynopsis+"', '"+strgLanuage+"', '"+strgNumber+"', '"+strgTitle+"')";
+        database.insertComic(getContext(),currentUserId,Integer.valueOf(strgNumber),idAuthor,idSerie,strgTitle,strgLanguage,strgSynopsis,"ic_default_cover");
 
+    }
+
+    public boolean currentIdNull(int currentUserId){
+
+        if(currentUserId==0){
+            return true;
+        }
+        return false;
     }
 
 
