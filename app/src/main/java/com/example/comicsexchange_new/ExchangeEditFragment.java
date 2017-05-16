@@ -125,6 +125,9 @@ public class ExchangeEditFragment extends Fragment {
 
             // récupération de la photo du Comic
             info=cursor.getString(6);
+            if(info==null){
+                info = "ic_default_cover";
+            }
             int resId = res.getIdentifier(info,"drawable", view.getContext().getPackageName());
             ImageView imageComicView = (ImageView) view.findViewById(R.id.imageView);
             imageComicView.setImageResource(resId);
@@ -184,16 +187,18 @@ public class ExchangeEditFragment extends Fragment {
 
     public void updateUser(){
 
+        String strgAuthor = authorView.getText().toString().trim();
         String strgSerie = serieView.getText().toString().trim();
+
         String strgTitle = titreView.getText().toString().trim();
         String strgNumber = numberView.getText().toString().trim();
         String strgSynopsis = synopsisView.getText().toString().trim();
         String strgLanguage = languageView.getText().toString().trim();
 
-        String strgAuthor = authorView.getText().toString().trim();
 
-        int editedAuthorId = authorAlreadyExist(Integer.valueOf(idAuthor),strgAuthor);
-        int editedSerieId = serieAlreadyExist(Integer.valueOf(idSerie),strgSerie);
+
+        int editedAuthorId = authorAlreadyExist(strgAuthor);
+        int editedSerieId = serieAlreadyExist(editedAuthorId,strgSerie);
 
         SQLiteDatabase db = new DbHelper(getContext()).getWritableDatabase();
 
@@ -209,20 +214,18 @@ public class ExchangeEditFragment extends Fragment {
 
     }
 
-    public int authorAlreadyExist(int idAuthors, String strgAuthors){
+    public int authorAlreadyExist(String strgAuthors){
         int returnedId=0;
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
 
         Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Authors.TABLE_NAME+" WHERE "
-                + Contract.Authors._ID+" = '"+idAuthors+"'",null);
+                + Contract.Authors.COLUMN_NAME_LASTNAME+" = '"+strgAuthors+"'",null);
 
         if(c.moveToFirst()){
-            Log.d("id Author '",returnedId+"");
             returnedId = c.getInt(0);
-            return returnedId;
+
         }
         else{
-            SQLiteDatabase databaseLite = new DbHelper(this.getContext()).getWritableDatabase();
             DbHelper database = new DbHelper(this.getContext());
             database.insertAuthors(this.getContext(),strgAuthors);
 
@@ -231,35 +234,26 @@ public class ExchangeEditFragment extends Fragment {
             Cursor c2 = db.rawQuery("SELECT * FROM "+ Contract.Authors.TABLE_NAME+" WHERE "
                     + Contract.Authors.COLUMN_NAME_LASTNAME+" = '"+strgAuthors+"'",null);
 
-            Log.d("Authors",strgAuthors);
-
             if(c2.moveToFirst()){
                 returnedId = c2.getInt(0);
-
-                Log.d("id Author '",returnedId+"");
-                return returnedId;
             }
         }
-
         return returnedId;
-
     }
 
-    public int serieAlreadyExist(int idSerie, String strgSerie){
+    public int serieAlreadyExist(int idAuthor, String strgSerie){
         int returnedId=0;
         SQLiteDatabase db = new DbHelper(this.getContext()).getReadableDatabase();
 
         Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Series.TABLE_NAME+" WHERE "
-                + Contract.Series._ID+" = '"+idSerie+"'",null);
+                + Contract.Series.COLUMN_NAME_SERIENAME+" = '"+strgSerie+"'",null);
 
         if(c.moveToFirst()){
             returnedId = c.getInt(0);
-            return returnedId;
         }
         else{
-            SQLiteDatabase databaseLite = new DbHelper(this.getContext()).getWritableDatabase();
             DbHelper database = new DbHelper(this.getContext());
-            database.insertAuthors(this.getContext(),strgSerie);
+            database.insertSeries(this.getContext(),strgSerie,"",idAuthor);
 
             database.getReadableDatabase();
 
@@ -268,7 +262,6 @@ public class ExchangeEditFragment extends Fragment {
 
             if(c2.moveToFirst()){
                 returnedId = c2.getInt(0);
-                return returnedId;
             }
         }
 
