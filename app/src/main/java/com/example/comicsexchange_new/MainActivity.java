@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
         navigation.inflateMenu(R.menu.navigation);
 
         fragmentManager = getSupportFragmentManager();
-
-        fragment = new ExplorerDefaultFragment();
         loadingProgress();
+        fragment = new ExplorerDefaultFragment();
+
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, fragment).commit();
