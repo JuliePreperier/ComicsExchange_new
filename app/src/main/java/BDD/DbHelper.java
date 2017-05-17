@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import java.util.List;
 
+import cloud.InsertAuthorsAsync;
+import cloud.InsertComicAsync;
+import cloud.InsertOwnerBooksAsync;
+import cloud.InsertSerieAsync;
 import cloud.InsertUserAsync;
 
 import static BDD.Contract.SQL_CREATE_AUTHORS;
@@ -90,7 +94,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 authors.setId(Long.valueOf(c.getString(0)));
                 authors.setName(c.getString(1));
 
-                //     new TownAsyncTask(town, db, settingsActivity).execute();
+                new InsertAuthorsAsync(authors).execute();
 
             }while (c.moveToNext());
         }
@@ -142,7 +146,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 serie.setEditionHouse(c.getString(2));
                 serie.setIdAuthor(c.getInt(3));
 
-                //     new TownAsyncTask(town, db, settingsActivity).execute();
+                new InsertSerieAsync(serie).execute();
 
             }while (c.moveToNext());
         }
@@ -218,15 +222,15 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 entities.comicApi.model.Comic comic = new entities.comicApi.model.Comic();
                 comic.setId(Long.valueOf(c.getString(0)));
-                comic.setNumber(c.getString(1));
-                comic.setIdAuthor(c.getInt(2));
-                comic.setIdSerie(c.getInt(3));
-                comic.setTitre(c.getString(4));
-                comic.setLanguage(c.getString(5));
-                comic.setSynopsis(c.getString(6));
-                comic.setPhoto(c.getString(7));
+                comic.setIdAuthor(c.getInt(1));
+                comic.setIdSerie(c.getInt(2));
+                comic.setTitre(c.getString(3));
+                comic.setLanguage(c.getString(4));
+                comic.setSynopsis(c.getString(5));
+                comic.setPhoto(c.getString(6));
+                comic.setNumber(c.getString(7));
 
-                //     new TownAsyncTask(town, db, settingsActivity).execute();
+                new InsertComicAsync(comic).execute();
 
             }while (c.moveToNext());
         }
@@ -241,13 +245,13 @@ public class DbHelper extends SQLiteOpenHelper {
         for (entities.comicApi.model.Comic t : items) {
             ContentValues value = new ContentValues();
             value.put(Contract.Comic._ID, t.getId());
-            value.put(Contract.Comic.COLUMN_NAME_NUMBER, t.getNumber());
             value.put(Contract.Comic.COLUMN_NAME_IDAUTHOR, t.getIdAuthor());
             value.put(Contract.Comic.COLUMN_NAME_IDSERIE,t.getIdSerie());
             value.put(Contract.Comic.COLUMN_NAME_TITRE, t.getTitre());
             value.put(Contract.Comic.COLUMN_NAME_LANGUAGE,t.getLanguage());
             value.put(Contract.Comic.COLUMN_NAME_SYNOPSIS, t.getSynopsis());
             value.put(Contract.Comic.COLUMN_NAME_PHOTO,t.getPhoto());
+            value.put(Contract.Comic.COLUMN_NAME_NUMBER, t.getNumber());
 
 
             sqlDB.insert(Contract.Comic.TABLE_NAME, null,value);
@@ -356,7 +360,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 ownerBook.setIdUser(c.getInt(1));
                 ownerBook.setIdComic(c.getInt(2));
 
-                //     new TownAsyncTask(town, db, settingsActivity).execute();
+                new InsertOwnerBooksAsync(ownerBook).execute();
 
             }while (c.moveToNext());
         }

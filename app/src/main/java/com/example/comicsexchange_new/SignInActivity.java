@@ -94,6 +94,8 @@ public class SignInActivity extends AppCompatActivity {
             else {
 
                 myDbHelper.insertUser(this,strgUsername,strgPassword,strgEmail);
+
+                // mettre le user dans le cloud
                 myDbHelper.toCloudUser();
                 Toast.makeText(getApplicationContext(),this.getString(R.string.UserCreated),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignInActivity.this,LogInActivity.class); // ATTENTION --> Nom des class java

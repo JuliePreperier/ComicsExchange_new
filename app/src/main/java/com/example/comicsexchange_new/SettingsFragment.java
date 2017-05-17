@@ -142,11 +142,13 @@ public class SettingsFragment extends Fragment{
 
     public void updateUser(){
 
+        DbHelper database = new DbHelper(getContext());
+
         String strgUsername = username.getText().toString().trim();
         String strgPassword = password.getText().toString().trim();
         String strgEmail = email.getText().toString().trim();
 
-        SQLiteDatabase db = new DbHelper(getContext()).getWritableDatabase();
+        SQLiteDatabase db = database.getWritableDatabase();
 
         String strSQL = "UPDATE "+ Contract.Users.TABLE_NAME+" SET '"
                 + Contract.Users.COLUMN_NAME_EMAIL+"' = '"+strgEmail+"', '"
@@ -154,6 +156,9 @@ public class SettingsFragment extends Fragment{
                 + Contract.Users.COLUMN_NAME_PASSWORD+"' = '"+strgPassword+"'" +
                 "WHERE "+ Contract.Users._ID+" = '"+currentUserId+"'";
         db.execSQL(strSQL);
+
+        // mettre le user dans le cloud
+        database.toCloudUser();
 
     }
 

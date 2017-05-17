@@ -18,6 +18,7 @@ import android.widget.Toast;
 import BDD.Contract;
 import BDD.DbHelper;
 import cloud.InsertAuthorsAsync;
+import entities.authorsApi.model.Authors;
 
 /**
  * Created by Sandy on 04.05.2017.
@@ -134,6 +135,10 @@ public class ExchangeAddFragment extends Fragment{
         DbHelper database = new DbHelper(getContext());
         database.insertAuthors(getContext(),strgAuthor);
 
+        Authors author = new Authors();
+
+        // mettre l'auteur dans le cloud
+        database.toCloudAuthor();
 
         Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Authors.TABLE_NAME+" WHERE "+ Contract.Authors.COLUMN_NAME_LASTNAME+" = '"+strgAuthor+"'",null);
 
@@ -141,6 +146,8 @@ public class ExchangeAddFragment extends Fragment{
         idAuthor = c.getInt(0);
 
         database.insertSeries(getContext(),strgSerie,"",idAuthor);
+        // mettre la série dans le cloud
+        database.toCloudSerie();
 
         Cursor c2 = db.rawQuery("SELECT * FROM "+ Contract.Series.TABLE_NAME+" WHERE "+ Contract.Series.COLUMN_NAME_SERIENAME+" = '"+strgSerie+"'",null);
 
@@ -148,7 +155,10 @@ public class ExchangeAddFragment extends Fragment{
         idSerie = c2.getInt(0);
 
         database.insertComic(getContext(),currentUserId,Integer.valueOf(strgNumber),idAuthor,idSerie,strgTitle,strgLanguage,strgSynopsis,"ic_default_cover");
-
+        // mettre le comic dans le cloud
+        database.toCloudComic();
+        // mettre l'ownerbook dans le cloud
+        database.toCloudOwnerBook();
     }
 
     public boolean currentIdNull(int currentUserId){
