@@ -64,4 +64,6 @@
     <string name="searchComics">Search comics...</string>
     <string name="infosFiled">Information missing</string>
     <string name="SuppressionUser">Delete user</string>
+    <string name="loading">Synchronizing...</string>
+    <string name="description">Sychronization in progress</string>
 </resources>

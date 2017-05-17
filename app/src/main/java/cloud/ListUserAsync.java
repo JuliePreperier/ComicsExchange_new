@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
 import com.example.comicsexchange_new.LogInActivity;
+import com.example.comicsexchange_new.SyncToCloud;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -62,11 +63,13 @@ public class ListUserAsync extends AsyncTask<Void, Void, List<User>> {
 
     @Override
     protected void onPostExecute(List<User> users) {
-        new ListAuthorsAsync(db).execute();
 
         if (users != null) {
             db.fromCloudUser(users);
         }
+
+        SyncToCloud.setUserUpdatedTrue();
+        new ListAuthorsAsync(db).execute();
     }
 }
 

@@ -62,6 +62,7 @@ public class ExchangeAddFragment extends Fragment{
                     fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.main_container, fragment).commit();
+                    transaction.addToBackStack(null);
 
                 return true;
         }

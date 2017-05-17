@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import java.util.List;
 
+import cloud.DeleteComicAsync;
+import cloud.DeleteOwnerBookAsync;
+import cloud.DeleteUserAsync;
 import cloud.InsertAuthorsAsync;
 import cloud.InsertComicAsync;
 import cloud.InsertOwnerBooksAsync;
@@ -206,6 +209,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = myDBHelper.getWritableDatabase();
 
+        new DeleteComicAsync(Long.valueOf(id)).execute(); // ici ca va supprimer le comic du cloud
+
+        deleteOwnerBookFromComic(context,id); // ici ca va supprimer le lien dans Ownerbook selon l'id de ce comic
         db.delete(Contract.Comic.TABLE_NAME, Contract.Comic._ID+" = ?",new String[]{String.valueOf(id)});
 
     }
@@ -324,7 +330,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = myDBHelper.getWritableDatabase();
 
-        deleteOwnerBook(context,id);
+        new DeleteUserAsync(Long.valueOf(id)).execute(); // Ici ca va supprimer le user du cloud
+
+        deleteOwnerBookFromUser(context,id); // Ici ca va supprimer le lien dans OwnerBook
         db.delete(Contract.Users.TABLE_NAME, Contract.Users._ID+" = ?",new String[]{String.valueOf(id)});
 
 
@@ -387,8 +395,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 
-    public void deleteOwnerBook(Context context, int idUser){
+    public void deleteOwnerBookFromUser(Context context, int idUser){
         DbHelper myDbHelper = new DbHelper(context);
+        int idOwnerBook;
 
         String query = "SELECT * FROM "+Contract.Ownerbooks.TABLE_NAME+" WHERE "+Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = '"+idUser+"'";
 
@@ -397,16 +406,37 @@ public class DbHelper extends SQLiteOpenHelper {
 
         if(c.moveToFirst()){
             do{
+                idOwnerBook = c.getInt(0);
                 int idComic = c.getInt(2);
-                deleteComic(context,idComic);
+                new DeleteOwnerBookAsync(Long.valueOf(idOwnerBook)).execute(); // Ici ca va supprimer le lien Ownerbook
+                deleteComic(context,idComic); // et ca va aller supprimer le comic lié à ce lien (dans la DB et dans le cloud --> voir methode deleteComic();
             }while (c.moveToNext());
         }
+
+
 
         db=myDbHelper.getWritableDatabase();
         db.delete(Contract.Ownerbooks.TABLE_NAME,Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = ?",new String[]{String.valueOf(idUser)});
 
-       // SQLiteDatabase db = myDbHelper.getWritableDatabase();
 
     }
 
+    public void deleteOwnerBookFromComic(Context context, int idComic){
+        DbHelper myDbHelper = new DbHelper(context);
+
+        String query = "SELECT * FROM "+Contract.Ownerbooks.TABLE_NAME+" WHERE "+Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = '"+idComic+"'";
+
+        SQLiteDatabase db = myDbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(query,null);
+
+        if(c.moveToFirst()){
+                int idOwnerBook = c.getInt(0);
+                new DeleteOwnerBookAsync(Long.valueOf(idOwnerBook)).execute();
+        }
+
+        db=myDbHelper.getWritableDatabase();
+        db.delete(Contract.Ownerbooks.TABLE_NAME,Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = ?",new String[]{String.valueOf(idComic)});
+
+
+    }
 }

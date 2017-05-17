@@ -62,6 +62,7 @@ public class ExchangeDetailsFragment extends Fragment {
                 fragment.setArguments(bundle);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
+                transaction.addToBackStack(null);
                 return true;
             case R.id.details_button_delete:
                 deleteComic(transferredId);
@@ -70,6 +71,7 @@ public class ExchangeDetailsFragment extends Fragment {
                 fragment = new ExchangeFragment();
                 FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
+                transaction2.addToBackStack(null);
                 return true;
         }
         return false;

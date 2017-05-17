@@ -1,6 +1,8 @@
 package cloud;
 
 import android.os.AsyncTask;
+
+import com.example.comicsexchange_new.SyncToCloud;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -56,11 +58,11 @@ public class ListComicAsync extends AsyncTask<Void, Void, List<Comic>> {
 
     @Override
     protected void onPostExecute(List<Comic> comics) {
-
-        new ListOwnerBooksAsync(db).execute();
-
         if (comics != null) {
             db.fromCloudComic(comics);
         }
+
+        SyncToCloud.setComicUpdatedTrue();
+        new ListOwnerBooksAsync(db).execute();
     }
 }

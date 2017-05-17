@@ -1,10 +1,12 @@
 package com.example.comicsexchange_new;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,11 +25,15 @@ public class LogInActivity extends AppCompatActivity {
     public EditText password;
     public SQLiteDatabase db;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         DbHelper myDBHelper = new DbHelper(this); // L'Activité est le Context qu'il faut donner
         super.onCreate(savedInstanceState);
+
+        // initialisation de la classe SyncToCloud
+        SyncToCloud stc = new SyncToCloud();
 
         setContentView(R.layout.activity_log_in);
         username = (EditText) findViewById(R.id.username_editText);
@@ -50,6 +56,7 @@ public class LogInActivity extends AppCompatActivity {
         db = myDBHelper.getReadableDatabase();
         new ListUserAsync(new DbHelper(this)).execute();
 
+
         Button loginButton = (Button) findViewById(R.id.buttonConnect);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +75,6 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-
-        Cursor c = db.rawQuery("SELECT * FROM "+ Contract.Comic.TABLE_NAME,null);
 
     }
 
@@ -96,4 +101,5 @@ public class LogInActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),this.getString(R.string.wrongLogin),Toast.LENGTH_SHORT).show();
         }
     }
+
 }

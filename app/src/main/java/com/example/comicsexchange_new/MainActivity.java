@@ -1,6 +1,7 @@
 package com.example.comicsexchange_new;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -17,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     public static int spinnerposition=1;
+
+    private ProgressDialog progressing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         fragment = new ExplorerDefaultFragment();
+        loadingProgress();
+
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, fragment).commit();
 
@@ -70,9 +76,12 @@ public class MainActivity extends AppCompatActivity {
 
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
+                transaction.addToBackStack(null);
                 return true;
             }
         });
+
+
     }
 
     public boolean currentIdNull(int currentUserId){
@@ -82,5 +91,49 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    public void loadingProgress(){
+        progressing=new ProgressDialog(this);
+        progressing.setMessage(getString(R.string.loading)); // Setting Message
+        progressing.setTitle(getString(R.string.description)); // Setting Title
+        progressing.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+        progressing.show(); // Display Progress Dialog
+        progressing.setCancelable(false);
+
+        Log.d("Thread","starting");
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    int cpt=0;
+                    while (cpt<=6){
+                        cpt=0;
+
+                        for(int i = 0; i<SyncToCloud.loadingDone.size(); i++){
+
+                            if (SyncToCloud.loadingDone.get(i)){
+                                cpt++;
+                            }
+                        }
+                        if(cpt==5){
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                progressing.dismiss();
+
+            }
+
+        }).start();
+
+        fragment = new ExplorerDefaultFragment();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_container, fragment).commit();
+        transaction.addToBackStack(null);
+    };
+
+
 
 }

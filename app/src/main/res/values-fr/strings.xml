@@ -64,4 +64,6 @@
     <string name="searchComics">Rechercher bds...</string>
     <string name="infosFiled">Informations manquantes</string>
     <string name="SuppressionUser">Supprimer utilisateur</string>
+    <string name="loading">Synchronisation....</string>
+    <string name="description">Synchronisation en cours</string>
 </resources>

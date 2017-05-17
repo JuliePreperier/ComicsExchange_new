@@ -1,6 +1,7 @@
 package com.example.comicsexchange_new;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -11,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +28,9 @@ import java.util.Locale;
 
 import BDD.Contract;
 import BDD.DbHelper;
+import cloud.ListUserAsync;
+
+import static com.example.comicsexchange_new.SyncToCloud.loadingDone;
 
 
 public class SettingsFragment extends Fragment{
@@ -36,6 +41,8 @@ public class SettingsFragment extends Fragment{
     EditText username;
     EditText password;
     EditText email;
+
+    private ProgressDialog progressing;
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -53,7 +60,7 @@ public class SettingsFragment extends Fragment{
 
     //Handle button activities
     public boolean onOptionsItemSelected(MenuItem item){
-
+        DbHelper db = new DbHelper(getContext());
         switch (item.getItemId()){
             case R.id.settings_button_save:
                 updateUser();
@@ -67,6 +74,20 @@ public class SettingsFragment extends Fragment{
                 if(spinner.getSelectedItem().toString().equals("Deutsch")){
                     changeToDE(view);
                 }
+                return true;
+            case R.id.settings_button_sync:
+                // remettre l'arrayList en false
+                for(int i =0; i<loadingDone.size();i++){
+                    loadingDone.set(i,false);
+                }
+
+
+
+                toCloudSynchronizedCloud();
+                new ListUserAsync(db).execute();
+                Intent intent = new Intent(getActivity(),MainActivity.class);
+                intent.putExtra(this.getString(R.string.currentUserIdFromSettings),currentUserId);
+                startActivity(intent);
                 return true;
         }
         return false;
@@ -239,6 +260,15 @@ public class SettingsFragment extends Fragment{
         spinner.setAdapter(adapter);
     }
 
+    public void toCloudSynchronizedCloud(){
+        DbHelper db = new DbHelper(getContext());
+
+        db.toCloudUser();
+        db.toCloudAuthor();
+        db.toCloudSerie();
+        db.toCloudComic();
+        db.toCloudOwnerBook();
+    }
 
 
 }

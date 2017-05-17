@@ -72,6 +72,7 @@ public class ExchangeEditFragment extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.main_container, fragment).commit();
+                transaction.addToBackStack(null);
                 return true;
         }
         return false;
