@@ -99,8 +99,7 @@ public class MainActivity extends AppCompatActivity {
         progressing.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
         progressing.show(); // Display Progress Dialog
         progressing.setCancelable(false);
-
-        Log.d("Thread","starting");
+        
         new Thread(new Runnable() {
             public void run() {
                 try {
