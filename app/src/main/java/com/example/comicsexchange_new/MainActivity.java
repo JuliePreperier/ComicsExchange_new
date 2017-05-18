@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog progressing;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,40 +47,14 @@ public class MainActivity extends AppCompatActivity {
         navigation.inflateMenu(R.menu.navigation);
 
         fragmentManager = getSupportFragmentManager();
+
+        this.setTitle(this.getString(R.string.explorer_news));
+
         loadingProgress();
-        fragment = new ExplorerDefaultFragment();
+
+        // marque un temps
 
 
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_container, fragment).commit();
-
-
-        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
-                switch (item.getItemId())
-                {
-                    case R.id.navigation_news:
-                        fragment = new ExplorerDefaultFragment(); // new Fragment();
-                        break;
-                    case R.id.navigation_search:
-                        fragment = new SearchFragment();
-                        break;
-                    case R.id.navigation_exchange:
-                        fragment = new ExchangeFragment();
-                        break;
-                    case R.id.navigation_settings:
-                        fragment = new SettingsFragment();
-                        break;
-                }
-
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_container, fragment).commit();
-                transaction.addToBackStack(null);
-                return true;
-            }
-        });
 
 
     }
@@ -99,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         progressing.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
         progressing.show(); // Display Progress Dialog
         progressing.setCancelable(false);
-        
+
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -123,14 +98,46 @@ public class MainActivity extends AppCompatActivity {
 
                 progressing.dismiss();
 
+                fragment = new ExplorerDefaultFragment();
+
+
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container, fragment).commit();
+
+
+                navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item)
+                    {
+                        switch (item.getItemId())
+                        {
+                            case R.id.navigation_news:
+                                fragment = new ExplorerDefaultFragment(); // new Fragment();
+                                break;
+                            case R.id.navigation_search:
+                                fragment = new SearchFragment();
+                                break;
+                            case R.id.navigation_exchange:
+                                fragment = new ExchangeFragment();
+                                break;
+                            case R.id.navigation_settings:
+                                fragment = new SettingsFragment();
+                                break;
+                        }
+
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.replace(R.id.main_container, fragment).commit();
+                        transaction.addToBackStack(null);
+                        return true;
+                    }
+                });
+
             }
 
         }).start();
 
-        fragment = new ExplorerDefaultFragment();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_container, fragment).commit();
-        transaction.addToBackStack(null);
+
+
     };
 
 

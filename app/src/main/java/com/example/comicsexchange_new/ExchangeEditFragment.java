@@ -210,8 +210,8 @@ public class ExchangeEditFragment extends Fragment {
                 + Contract.Comic.COLUMN_NAME_NUMBER+"' = '"+strgNumber+"', '"
                 + Contract.Comic.COLUMN_NAME_LANGUAGE+"' = '"+strgLanguage+"', '"
                 + Contract.Comic.COLUMN_NAME_SYNOPSIS+"' = '"+strgSynopsis+"', '"
-                + Contract.Comic.COLUMN_NAME_IDAUTHOR+"' = '"+editedAuthorId+"', '"
-                + Contract.Comic.COLUMN_NAME_IDSERIE+"' = '"+editedSerieId+"'" +
+                + Contract.Comic.COLUMN_NAME_IDAUTHOR+"' = "+editedAuthorId+", '"
+                + Contract.Comic.COLUMN_NAME_IDSERIE+"' = "+editedSerieId+"" +
                 " WHERE "+ Contract.Comic._ID+" = "+idComic;
         db.execSQL(strSQL);
         // mettre l0auteur dans le cloud

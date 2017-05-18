@@ -81,8 +81,6 @@ public class SettingsFragment extends Fragment{
                     loadingDone.set(i,false);
                 }
 
-
-
                 toCloudSynchronizedCloud();
                 new ListUserAsync(db).execute();
                 Intent intent = new Intent(getActivity(),MainActivity.class);
