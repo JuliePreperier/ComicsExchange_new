@@ -67,4 +67,6 @@
     <string name="searchComics">Search comics...</string>
     <string name="infosFiled">infoFiled</string>
     <string name="SuppressionUser">Suppress</string>
+    <string name="loading">Loading...</string>
+    <string name="description">desc</string>
 </resources>

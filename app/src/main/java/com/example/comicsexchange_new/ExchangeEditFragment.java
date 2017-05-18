@@ -72,6 +72,7 @@ public class ExchangeEditFragment extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.main_container, fragment).commit();
+                transaction.addToBackStack(null);
                 return true;
         }
         return false;
@@ -187,6 +188,8 @@ public class ExchangeEditFragment extends Fragment {
 
     public void updateUser(){
 
+        DbHelper database = new DbHelper(getContext());
+
         String strgAuthor = authorView.getText().toString().trim();
         String strgSerie = serieView.getText().toString().trim();
 
@@ -200,17 +203,23 @@ public class ExchangeEditFragment extends Fragment {
         int editedAuthorId = authorAlreadyExist(strgAuthor);
         int editedSerieId = serieAlreadyExist(editedAuthorId,strgSerie);
 
-        SQLiteDatabase db = new DbHelper(getContext()).getWritableDatabase();
+        SQLiteDatabase db = database.getWritableDatabase();
 
         String strSQL = "UPDATE "+ Contract.Comic.TABLE_NAME+" SET '"
                 + Contract.Comic.COLUMN_NAME_TITRE+"' = '"+strgTitle+"', '"
                 + Contract.Comic.COLUMN_NAME_NUMBER+"' = '"+strgNumber+"', '"
                 + Contract.Comic.COLUMN_NAME_LANGUAGE+"' = '"+strgLanguage+"', '"
                 + Contract.Comic.COLUMN_NAME_SYNOPSIS+"' = '"+strgSynopsis+"', '"
-                + Contract.Comic.COLUMN_NAME_IDAUTHOR+"' = '"+editedAuthorId+"', '"
-                + Contract.Comic.COLUMN_NAME_IDSERIE+"' = '"+editedSerieId+"'" +
+                + Contract.Comic.COLUMN_NAME_IDAUTHOR+"' = "+editedAuthorId+", '"
+                + Contract.Comic.COLUMN_NAME_IDSERIE+"' = "+editedSerieId+"" +
                 " WHERE "+ Contract.Comic._ID+" = "+idComic;
         db.execSQL(strSQL);
+        // mettre l0auteur dans le cloud
+        database.toCloudAuthor();
+        // mettre la série dans le cloud
+        database.toCloudSerie();
+        // mettre le comic dans le cloud
+        database.toCloudComic();
 
     }
 

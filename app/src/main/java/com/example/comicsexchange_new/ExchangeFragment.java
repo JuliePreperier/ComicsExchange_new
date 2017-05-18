@@ -48,6 +48,7 @@ public class ExchangeFragment extends Fragment {
                 fragment = new ExchangeAddFragment();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
+                transaction.addToBackStack(null);
                 return true;
         }
         return false;
@@ -100,6 +101,7 @@ public class ExchangeFragment extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.main_container, fragment).commit();
+                transaction.addToBackStack(null);
             }
         });
 

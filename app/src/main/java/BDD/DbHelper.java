@@ -5,10 +5,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import java.util.List;
 
-import com.example.comicsexchange_new.Comic;
-
-import java.util.ArrayList;
+import cloud.DeleteComicAsync;
+import cloud.DeleteOwnerBookAsync;
+import cloud.DeleteUserAsync;
+import cloud.InsertAuthorsAsync;
+import cloud.InsertComicAsync;
+import cloud.InsertOwnerBooksAsync;
+import cloud.InsertSerieAsync;
+import cloud.InsertUserAsync;
 
 import static BDD.Contract.SQL_CREATE_AUTHORS;
 import static BDD.Contract.SQL_CREATE_COMICS;
@@ -29,9 +36,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Comics.db";
+    public Context context;
 
     public DbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
 
@@ -76,6 +85,41 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(Contract.Authors.TABLE_NAME,null,values);
     }
 
+    public void toCloudAuthor(){
+
+        SQLiteDatabase dbR= new DbHelper(context).getReadableDatabase();
+        Cursor c = dbR.rawQuery("SELECT * from "+ Contract.Authors.TABLE_NAME, null);
+
+        if (c.moveToFirst())
+        {
+            do {
+                entities.authorsApi.model.Authors authors = new entities.authorsApi.model.Authors();
+                authors.setId(Long.valueOf(c.getString(0)));
+                authors.setName(c.getString(1));
+
+                new InsertAuthorsAsync(authors).execute();
+
+            }while (c.moveToNext());
+        }
+        Log.e("debugCloud","all authors data saved");
+    }
+
+    public void fromCloudAuhtor(List<entities.authorsApi.model.Authors> items){
+        DbHelper db = new DbHelper(context);
+        SQLiteDatabase sqlDB = db.getReadableDatabase();
+        sqlDB.delete(Contract.Authors.TABLE_NAME, null, null);
+
+        for (entities.authorsApi.model.Authors t : items) {
+            ContentValues value = new ContentValues();
+            value.put(Contract.Authors._ID, t.getId());
+            value.put(Contract.Authors.COLUMN_NAME_LASTNAME, t.getName());
+
+            sqlDB.insert(Contract.Authors.TABLE_NAME, null,value);
+        }
+        sqlDB.close();
+        Log.e("debugCloud","all author data got");
+    }
+
     // inserting a new Serie in the database
     public void insertSeries(Context context, String name, String editionHouse, int idAuthor){
         DbHelper myDBHelper = new DbHelper(context);
@@ -88,6 +132,46 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(Contract.Series.COLUMN_NAME_IDAUTHOR,idAuthor);
 
         db.insert(Contract.Series.TABLE_NAME,null,values);
+    }
+
+    public void toCloudSerie(){
+
+        SQLiteDatabase dbR= new DbHelper(context).getReadableDatabase();
+        Cursor c = dbR.rawQuery("SELECT * from "+ Contract.Series.TABLE_NAME, null);
+
+
+        if (c.moveToFirst())
+        {
+            do {
+                entities.serieApi.model.Serie serie = new entities.serieApi.model.Serie();
+                serie.setId(Long.valueOf(c.getString(0)));
+                serie.setName(c.getString(1));
+                serie.setEditionHouse(c.getString(2));
+                serie.setIdAuthor(c.getInt(3));
+
+                new InsertSerieAsync(serie).execute();
+
+            }while (c.moveToNext());
+        }
+        Log.e("debugCloud","all Serie data saved");
+    }
+
+    public void fromCloudSerie(List<entities.serieApi.model.Serie> items){
+        DbHelper db = new DbHelper(context);
+        SQLiteDatabase sqlDB = db.getReadableDatabase();
+        sqlDB.delete(Contract.Series.TABLE_NAME, null, null);
+
+        for (entities.serieApi.model.Serie t : items) {
+            ContentValues value = new ContentValues();
+            value.put(Contract.Series._ID, t.getId());
+            value.put(Contract.Series.COLUMN_NAME_SERIENAME, t.getName());
+            value.put(Contract.Series.COLUMN_NAME_EDITION_HOUSE, t.getEditionHouse());
+            value.put(Contract.Series.COLUMN_NAME_IDAUTHOR,t.getIdAuthor());
+
+            sqlDB.insert(Contract.Series.TABLE_NAME, null,value);
+        }
+        sqlDB.close();
+        Log.e("debugCloud","all Serie data got");
     }
 
     // inserting a new Comic in the database
@@ -125,9 +209,63 @@ public class DbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = myDBHelper.getWritableDatabase();
 
+        new DeleteComicAsync(Long.valueOf(id)).execute(); // ici ca va supprimer le comic du cloud
+
+        deleteOwnerBookFromComic(context,id); // ici ca va supprimer le lien dans Ownerbook selon l'id de ce comic
         db.delete(Contract.Comic.TABLE_NAME, Contract.Comic._ID+" = ?",new String[]{String.valueOf(id)});
 
     }
+
+    public void toCloudComic(){
+
+        SQLiteDatabase dbR= new DbHelper(context).getReadableDatabase();
+
+        Cursor c = dbR.rawQuery("SELECT * from "+ Contract.Comic.TABLE_NAME, null);
+
+
+        if (c.moveToFirst())
+        {
+            do {
+                entities.comicApi.model.Comic comic = new entities.comicApi.model.Comic();
+                comic.setId(Long.valueOf(c.getString(0)));
+                comic.setIdAuthor(c.getInt(1));
+                comic.setIdSerie(c.getInt(2));
+                comic.setTitre(c.getString(3));
+                comic.setLanguage(c.getString(4));
+                comic.setSynopsis(c.getString(5));
+                comic.setPhoto(c.getString(6));
+                comic.setNumber(c.getString(7));
+
+                new InsertComicAsync(comic).execute();
+
+            }while (c.moveToNext());
+        }
+        Log.e("debugCloud","all Comic data saved");
+    }
+
+    public void fromCloudComic(List<entities.comicApi.model.Comic> items){
+        DbHelper db = new DbHelper(context);
+        SQLiteDatabase sqlDB = db.getReadableDatabase();
+        sqlDB.delete(Contract.Comic.TABLE_NAME, null, null);
+
+        for (entities.comicApi.model.Comic t : items) {
+            ContentValues value = new ContentValues();
+            value.put(Contract.Comic._ID, t.getId());
+            value.put(Contract.Comic.COLUMN_NAME_IDAUTHOR, t.getIdAuthor());
+            value.put(Contract.Comic.COLUMN_NAME_IDSERIE,t.getIdSerie());
+            value.put(Contract.Comic.COLUMN_NAME_TITRE, t.getTitre());
+            value.put(Contract.Comic.COLUMN_NAME_LANGUAGE,t.getLanguage());
+            value.put(Contract.Comic.COLUMN_NAME_SYNOPSIS, t.getSynopsis());
+            value.put(Contract.Comic.COLUMN_NAME_PHOTO,t.getPhoto());
+            value.put(Contract.Comic.COLUMN_NAME_NUMBER, t.getNumber());
+
+
+            sqlDB.insert(Contract.Comic.TABLE_NAME, null,value);
+        }
+        sqlDB.close();
+        Log.e("debugCloud","all Comic data got");
+    }
+
 
     // Inserting a new User in the database
     public void insertUser(Context context, String username, String password, String email){
@@ -144,17 +282,63 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+    public void toCloudUser(){
+
+        SQLiteDatabase dbR= new DbHelper(context).getReadableDatabase();
+
+        Cursor c = dbR.rawQuery("SELECT * from "+ Contract.Users.TABLE_NAME, null);
+
+
+        if (c.moveToFirst())
+        {
+            do {
+                entities.userApi.model.User user = new entities.userApi.model.User();
+                user.setId(Long.valueOf(c.getString(0)));
+                user.setUsername(c.getString(1));
+                user.setPassword(c.getString(2));
+                user.setEmail(c.getString(3));
+
+                new InsertUserAsync(user).execute();
+
+            }while (c.moveToNext());
+        }
+        Log.e("debugCloud","all User data saved");
+    }
+
+    public void fromCloudUser(List<entities.userApi.model.User> items){
+        DbHelper db = new DbHelper(context);
+        SQLiteDatabase sqlDB = db.getReadableDatabase();
+        sqlDB.delete(Contract.Users.TABLE_NAME, null, null);
+
+        for (entities.userApi.model.User t : items) {
+            ContentValues value = new ContentValues();
+            value.put(Contract.Users._ID, t.getId());
+            value.put(Contract.Users.COLUMN_NAME_USERNAME, t.getUsername());
+            value.put(Contract.Users.COLUMN_NAME_PASSWORD, t.getPassword());
+            value.put(Contract.Users.COLUMN_NAME_EMAIL,t.getEmail());
+
+
+            sqlDB.insert(Contract.Users.TABLE_NAME, null,value);
+        }
+        sqlDB.close();
+        Log.e("debugCloud","all User data got");
+    }
+
     // deleting a comic from the database with id
     public void deleteUser(Context context,int id){
         DbHelper myDBHelper = new DbHelper(context);
 
         SQLiteDatabase db = myDBHelper.getWritableDatabase();
 
-        deleteOwnerBook(context,id);
+        new DeleteUserAsync(Long.valueOf(id)).execute(); // Ici ca va supprimer le user du cloud
+
+        deleteOwnerBookFromUser(context,id); // Ici ca va supprimer le lien dans OwnerBook
         db.delete(Contract.Users.TABLE_NAME, Contract.Users._ID+" = ?",new String[]{String.valueOf(id)});
 
 
     }
+
+
 
     // inserting data in the join table between User and Comic
     public void insertOwnerBooks(Context context, int idUser, int idBook){
@@ -169,10 +353,51 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(Contract.Ownerbooks.TABLE_NAME,null,values);
     }
 
+    public void toCloudOwnerBook(){
+
+        SQLiteDatabase dbR= new DbHelper(context).getReadableDatabase();
+
+        Cursor c = dbR.rawQuery("SELECT * from "+ Contract.Ownerbooks.TABLE_NAME, null);
 
 
-    public void deleteOwnerBook(Context context, int idUser){
+        if (c.moveToFirst())
+        {
+            do {
+                entities.ownerBooksApi.model.OwnerBooks ownerBook = new entities.ownerBooksApi.model.OwnerBooks();
+                ownerBook.setId(Long.valueOf(c.getString(0)));
+                ownerBook.setIdUser(c.getInt(1));
+                ownerBook.setIdComic(c.getInt(2));
+
+                new InsertOwnerBooksAsync(ownerBook).execute();
+
+            }while (c.moveToNext());
+        }
+        Log.e("debugCloud","all OwnerBook data saved");
+    }
+
+    public void fromCloudOwnerBook(List<entities.ownerBooksApi.model.OwnerBooks> items){
+        DbHelper db = new DbHelper(context);
+        SQLiteDatabase sqlDB = db.getReadableDatabase();
+        sqlDB.delete(Contract.Ownerbooks.TABLE_NAME, null, null);
+
+        for (entities.ownerBooksApi.model.OwnerBooks t : items) {
+            ContentValues value = new ContentValues();
+            value.put(Contract.Ownerbooks._ID, t.getId());
+            value.put(Contract.Ownerbooks.COLUMN_NAME_IDUSER, t.getIdUser());
+            value.put(Contract.Ownerbooks.COLUMN_NAME_IDBOOK, t.getIdComic());
+
+
+            sqlDB.insert(Contract.Ownerbooks.TABLE_NAME, null,value);
+        }
+        sqlDB.close();
+        Log.e("debugCloud","all OwnerBook data got");
+    }
+
+
+
+    public void deleteOwnerBookFromUser(Context context, int idUser){
         DbHelper myDbHelper = new DbHelper(context);
+        int idOwnerBook;
 
         String query = "SELECT * FROM "+Contract.Ownerbooks.TABLE_NAME+" WHERE "+Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = '"+idUser+"'";
 
@@ -181,19 +406,37 @@ public class DbHelper extends SQLiteOpenHelper {
 
         if(c.moveToFirst()){
             do{
+                idOwnerBook = c.getInt(0);
                 int idComic = c.getInt(2);
-                deleteComic(context,idComic);
+                new DeleteOwnerBookAsync(Long.valueOf(idOwnerBook)).execute(); // Ici ca va supprimer le lien Ownerbook
+                deleteComic(context,idComic); // et ca va aller supprimer le comic lié à ce lien (dans la DB et dans le cloud --> voir methode deleteComic();
             }while (c.moveToNext());
         }
+
+
 
         db=myDbHelper.getWritableDatabase();
         db.delete(Contract.Ownerbooks.TABLE_NAME,Contract.Ownerbooks.COLUMN_NAME_IDUSER+" = ?",new String[]{String.valueOf(idUser)});
 
-       // SQLiteDatabase db = myDbHelper.getWritableDatabase();
 
     }
 
+    public void deleteOwnerBookFromComic(Context context, int idComic){
+        DbHelper myDbHelper = new DbHelper(context);
+
+        String query = "SELECT * FROM "+Contract.Ownerbooks.TABLE_NAME+" WHERE "+Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = '"+idComic+"'";
+
+        SQLiteDatabase db = myDbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(query,null);
+
+        if(c.moveToFirst()){
+                int idOwnerBook = c.getInt(0);
+                new DeleteOwnerBookAsync(Long.valueOf(idOwnerBook)).execute();
+        }
+
+        db=myDbHelper.getWritableDatabase();
+        db.delete(Contract.Ownerbooks.TABLE_NAME,Contract.Ownerbooks.COLUMN_NAME_IDBOOK+" = ?",new String[]{String.valueOf(idComic)});
 
 
-
+    }
 }
